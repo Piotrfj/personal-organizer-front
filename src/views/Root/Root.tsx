@@ -1,15 +1,18 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import './Root.css';
 import HabitList from "../../components/HabitList/Habit-list";
+import Calendar from "../../components/Calendar";
 
 
 export default class Root extends Component {
-  state = {};
+    state = {};
 
-  render() {
-    return (
-      <HabitList/>
-
-    );
-  }
+    render() {
+        return (
+            <>
+                <HabitList/>
+                <Calendar/>
+            </>
+        );
+    }
 }

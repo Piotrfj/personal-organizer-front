@@ -19,9 +19,18 @@ export default class Habit extends React.Component<IHabitProps> {
 
     private checkSuccess = () => {
         axios.post('http://127.0.0.1:3001/log',
-            {id: this.props.id, check: 1})
+            {
+                id: this.props.id,
+                date: this.getDate(),
+                check: 1
+            })
             .then(res => {
                 console.log(res.data);
             })
-    }
+    };
+
+    getDate = () => {
+     const d = new Date();
+     return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`
+    };
 }

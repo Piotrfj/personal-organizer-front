@@ -16,7 +16,6 @@ class HabitList extends Component {
 
     componentDidMount() {
         this.requestHabits();
-        this.requestLog();
     }
 
     requestHabits = () => {
@@ -34,13 +33,6 @@ class HabitList extends Component {
                 {this.getHabits()}
             </div>
     );
-    }
-
-    private requestLog() {
-        axios.get('http://127.0.0.1:3001/log')
-            .then(res => {
-                console.log(res.data);
-            })
     }
 }
 
