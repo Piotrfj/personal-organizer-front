@@ -8,14 +8,16 @@ class Calendar extends Component {
 
     state = {
         currentMonth: new Date().getMonth(),
+        days: []
     };
 
 
     componentDidMount(): void {
-        console.log(this.currentDate);
-        console.log(this.state.currentMonth);
         this.requestLog();
+    }
 
+    componentDidUpdate(): void {
+        console.log(this.state);
     }
 
     render() {
@@ -35,7 +37,7 @@ class Calendar extends Component {
 
         const daysAfter = 7 - (startingDay + daysInMonth -1) % 7;
         for (let i = daysInMonth11 - daysBefore + 1; i <= daysInMonth11; i++) arr.push(<div className="calendar__cell calendar__cell--disabled"><p>{i}</p></div>);
-        for (let i = 1; i <= this.getDaysInMonth(); i++) arr.push(<div className="calendar__cell"><p>{i}</p></div>);
+        for (let i = 1; i <= this.getDaysInMonth(); i++) arr.push(<div className={"calendar__cell" + this.getClass(i)}><p>{i}</p></div>);
         for (let i = 1; i <= daysAfter; i++) arr.push(<div className="calendar__cell calendar__cell--disabled"><p>{i}</p></div>);
         return arr;
     }
@@ -51,8 +53,21 @@ class Calendar extends Component {
     private requestLog() {
         axios.get('http://127.0.0.1:3001/log/1')
             .then(res => {
-                console.log(res.data);
-            })
+                const tab: any[] = [];
+                for (let i = 1; i <=31 ; i++) {
+                    tab.push({type: 0})
+                }
+                res.data.forEach((habit) => {
+                    const date = new Date(habit.date.substr(0,10));
+                    tab[date.getDate()] = {type: habit.checkType};
+                    this.setState({days: tab})
+                })
+            });
+        console.log(this.state.days);
+    }
+
+    private getClass(i: number) {
+        return '';
     }
 }
 
