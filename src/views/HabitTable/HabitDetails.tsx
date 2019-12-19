@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import Calendar from "../../components/Calendar";
-// import PropTypes from 'prop-types';
 
-class HabitDetails extends Component {
+class HabitDetails extends Component<{selectedItem: number}> {
     render() {
         return (
             <div>
@@ -11,7 +10,5 @@ class HabitDetails extends Component {
         );
     }
 }
-
-// HabitDetails.propTypes = {};
 
 export default HabitDetails;

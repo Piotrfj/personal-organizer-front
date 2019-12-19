@@ -7,7 +7,11 @@ interface Istate {
     days: {type: number}[]
 }
 
-class Calendar extends Component {
+interface IProps {
+    selectedHabit: number;
+}
+
+class Calendar extends Component<IProps> {
 
     readonly currentDate = new Date();
 
