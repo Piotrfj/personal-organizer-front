@@ -2,11 +2,16 @@ import React, {Component} from 'react';
 import axios from "axios";
 import './Calendar.scss'
 
+interface Istate {
+    currentMonth: number;
+    days: {type: number}[]
+}
+
 class Calendar extends Component {
 
     readonly currentDate = new Date();
 
-    state = {
+    state: Istate = {
         currentMonth: new Date().getMonth(),
         days: []
     };
@@ -37,7 +42,10 @@ class Calendar extends Component {
 
         const daysAfter = 7 - (startingDay + daysInMonth -1) % 7;
         for (let i = daysInMonth11 - daysBefore + 1; i <= daysInMonth11; i++) arr.push(<div className="calendar__cell calendar__cell--disabled"><p>{i}</p></div>);
-        for (let i = 1; i <= this.getDaysInMonth(); i++) arr.push(<div className={"calendar__cell" + this.getClass(i)}><p>{i}</p></div>);
+        // for (let i = 1; i <= this.getDaysInMonth(); i++) arr.push(<div className={"calendar__cell" + this.getClass(i)}><p>{i}</p></div>);
+        this.state.days.forEach((el, i) => {
+            arr.push(<div className={"calendar__cell " + this.getClass(el.type)}><p>{i+1}</p></div>)
+        });
         for (let i = 1; i <= daysAfter; i++) arr.push(<div className="calendar__cell calendar__cell--disabled"><p>{i}</p></div>);
         return arr;
     }
@@ -63,11 +71,16 @@ class Calendar extends Component {
                     this.setState({days: tab})
                 })
             });
-        console.log(this.state.days);
     }
 
-    private getClass(i: number) {
-        return '';
+    private getClass(type : number) {
+        switch(type) {
+            case 0: return '';
+            case 1: return 'calendar__cell--success';
+            case 2: return 'calendar__cell--part';
+            case 3: return 'calendar__cell--doesnt-count';
+            case 4: return 'calendar__cell--fail';
+        }
     }
 }
 

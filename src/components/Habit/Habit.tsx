@@ -5,6 +5,7 @@ import './Habit.scss';
 export interface IHabitProps {
     id: number
     habit: string
+    selectHabitFunction: ()=>{}
 }
 
 export default class Habit extends React.Component<IHabitProps> {
@@ -32,18 +33,6 @@ export default class Habit extends React.Component<IHabitProps> {
             </div>
         );
     }
-
-    private checkSuccess = () => {
-        axios.post('http://127.0.0.1:3001/log',
-            {
-                id: this.props.id,
-                date: this.getDate(),
-                check: 1
-            })
-            .then(res => {
-                console.log(res.data);
-            })
-    };
 
     getDate = () => {
      const d = new Date();

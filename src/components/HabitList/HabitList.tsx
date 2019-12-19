@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './Habit-list.css';
+import './HabitList.css';
 import Habit from "../Habit/Habit";
 import axios from "axios";
 
@@ -24,7 +24,8 @@ class HabitList extends Component {
     };
 
     getHabits = () => {
-        return this.state.habits.map((habit: HabitInterface) => <Habit key={habit.id} id={habit.id} habit={habit.content}/>)
+        // @ts-ignore
+        return this.state.habits.map((habit: HabitInterface) => <Habit selectHabitFunction={this.props.selectHabitFunction} key={habit.id} id={habit.id} habit={habit.content}/>)
     };
 
     render() {
