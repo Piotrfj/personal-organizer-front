@@ -1,18 +1,16 @@
 import React, {Component} from "react";
-import './Root.css';
-import HabitList from "../../components/HabitList/Habit-list";
-import Calendar from "../../components/Calendar";
-
+import './Root.scss';
+import HabitTable from "../HabitTable/HabitTable";
 
 export default class Root extends Component {
-    state = {};
-
     render() {
         return (
-            <>
-                <HabitList/>
-                <Calendar/>
-            </>
+            <div className={"core-view"}>
+                <nav className={"core-vew__nav"}>menu will be here</nav>
+                <section className={"core-view__view"}>
+                    <HabitTable/>
+                </section>
+            </div>
         );
     }
 }

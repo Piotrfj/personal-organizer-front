@@ -1,13 +1,14 @@
-import * as React from 'react';
-import axios from "axios";
+import React, {Component} from 'react';
 import './Habit.scss';
+import axios from "axios";
 
-export interface IHabitProps {
+export interface HabitProps {
     id: number
     habit: string
+    selectHabitFunction: (habitId) => void
 }
 
-export default class Habit extends React.Component<IHabitProps> {
+export default class Habit extends Component<HabitProps> {
 
   state = {
     date: '2019-12-17',
@@ -32,18 +33,6 @@ export default class Habit extends React.Component<IHabitProps> {
             </div>
         );
     }
-
-    private checkSuccess = () => {
-        axios.post('http://127.0.0.1:3001/log',
-            {
-                id: this.props.id,
-                date: this.getDate(),
-                check: 1
-            })
-            .then(res => {
-                console.log(res.data);
-            })
-    };
 
     getDate = () => {
      const d = new Date();

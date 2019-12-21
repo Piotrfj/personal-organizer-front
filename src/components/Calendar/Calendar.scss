@@ -16,5 +16,22 @@
     &--disabled {
       color: grey;
     }
+
+    &--success {
+      background-color: green;
+      color: white;
+    }
+    &--fail {
+      background-color: red;
+      color: white;
+    }
+    &--partially {
+      background-color: orange;
+      color: white;
+    }
+    &--doesnt-count {
+      background-color: dimgrey;
+      color: white;
+    }
   }
 }

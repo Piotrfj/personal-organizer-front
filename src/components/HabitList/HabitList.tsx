@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
-import './Habit-list.css';
+import './HabitList.css';
 import Habit from "../Habit/Habit";
 import axios from "axios";
 
-interface HabitInterface {
+interface HabitItem {
     id: number,
     content: string,
 }
 
-class HabitList extends Component {
+interface HabitListState {
+    habits: HabitItem[];
+}
+interface HabitListProps {
+    selectHabitFunction: (habitId) => void;
+}
+
+class HabitList extends Component<HabitListProps, HabitListState> {
 
     state = {
       habits: [],
@@ -24,7 +31,7 @@ class HabitList extends Component {
     };
 
     getHabits = () => {
-        return this.state.habits.map((habit: HabitInterface) => <Habit key={habit.id} id={habit.id} habit={habit.content}/>)
+        return this.state.habits.map((habit: HabitItem) => <Habit selectHabitFunction={this.props.selectHabitFunction} key={habit.id} id={habit.id} habit={habit.content}/>)
     };
 
     render() {
