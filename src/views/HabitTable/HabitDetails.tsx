@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Calendar from "../../components/Calendar";
+import Calendar from "../../components/Calendar/Calendar";
 
 class HabitDetails extends Component<{selectedItem: number}> {
     render() {

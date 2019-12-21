@@ -1,14 +1,14 @@
-import * as React from 'react';
-import axios from "axios";
+import React, {Component} from 'react';
 import './Habit.scss';
+import axios from "axios";
 
-export interface IHabitProps {
+export interface HabitProps {
     id: number
     habit: string
-    selectHabitFunction: ()=>{}
+    selectHabitFunction: (habitId) => void
 }
 
-export default class Habit extends React.Component<IHabitProps> {
+export default class Habit extends Component<HabitProps> {
 
   state = {
     date: '2019-12-17',
