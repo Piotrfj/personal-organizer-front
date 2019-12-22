@@ -4,14 +4,19 @@
   grid-auto-rows: 3rem;
   grid-gap: .5rem;
 
-  &__cell {
+  .cell {
     background-color: #eee;
     border: 1px solid #999;
     border-radius: 50%;
 
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:hover {
+      cursor: pointer;
+    }
 
     &--disabled {
       color: grey;
@@ -21,17 +26,26 @@
       background-color: green;
       color: white;
     }
+
     &--fail {
       background-color: red;
       color: white;
     }
+
     &--partially {
       background-color: orange;
       color: white;
     }
+
     &--doesnt-count {
       background-color: dimgrey;
       color: white;
+    }
+
+    &__check-options {
+      position: absolute;
+      top: 100%;
+      z-index: 1;
     }
   }
 }

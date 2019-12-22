@@ -1,7 +1,7 @@
 export enum HabitLogType {
     EMPTY,
     SUCCESS,
-    PARTIALY,
+    PARTIALLY,
     DOESNT_COUNT,
     FAIL,
 }
