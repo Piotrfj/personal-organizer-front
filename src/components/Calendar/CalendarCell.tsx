@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import HabitCheck from "../HabitCheck/HabitCheck";
+import {HabitLogType} from "../../model-enum";
 
 interface CalendarCellProps {
-    type?: number
+    type: HabitLogType
     date: string
     habitId: number
+    logId?: number
     onCheck?: () => void;
 }
-
-
 
 class CalendarCell extends Component<CalendarCellProps> {
 
@@ -17,22 +17,32 @@ class CalendarCell extends Component<CalendarCellProps> {
     };
 
     getClass(type: number) {
-        switch(type) {
-            case 0: return '';
-            case 1: return 'cell--success';
-            case 2: return 'cell--partially';
-            case 3: return 'cell--doesnt-count';
-            case 4: return 'cell--fail';
+        if (!type) return '';
+        switch (type) {
+            case HabitLogType.EMPTY:
+                return '';
+            case HabitLogType.SUCCESS:
+                return 'cell--success';
+            case HabitLogType.PARTIALLY:
+                return 'cell--partially';
+            case HabitLogType.DOESNT_COUNT:
+                return 'cell--doesnt-count';
+            case HabitLogType.FAIL:
+                return 'cell--fail';
         }
     }
 
     turnOnCheckMode = () => {
-       this.setState({checkMode: true})
+        this.setState({checkMode: true});
     };
 
     private turnOffCheckMode = () => {
-        this.setState({checkMode: false})
+        this.setState({checkMode: false});
+    };
 
+    onCheck = () => {
+        this.turnOffCheckMode();
+        this.props.onCheck();
     };
 
     render() {
@@ -41,17 +51,16 @@ class CalendarCell extends Component<CalendarCellProps> {
                 <p>
                     {new Date(this.props.date).getDate()}
                 </p>
-                {this.state.checkMode ? (
+                {this.state.checkMode && (
                     <div className={'cell__check-options'} onMouseLeave={this.turnOffCheckMode}>
-                        <HabitCheck turnOffCheckMode={this.turnOffCheckMode} onCheck={this.props.onCheck} habitId={this.props.habitId} date={this.props.date} />
+                        <HabitCheck onCheck={this.onCheck}
+                                    logId={this.props.logId}
+                                    habitId={this.props.habitId} date={this.props.date}/>
                     </div>
-                ) : ''}
-
+                )}
             </div>
         );
     }
-
-
 }
 
 export default CalendarCell;

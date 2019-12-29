@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Calendar from "../../components/Calendar/Calendar";
-import AddHabit from "../../components/AddHabit/AddHabit";
+import HabitCreator from "../../components/HabitCreator/HabitCreator";
 
 interface HabitDetailsProps {
     selectedItem: number
@@ -12,7 +12,7 @@ class HabitDetails extends Component<HabitDetailsProps> {
         return (
             <div>
                 <Calendar selectedHabit={this.props.selectedItem}/>
-                <AddHabit onHabitAdded={this.props.reloadHabits}/>
+                <HabitCreator onHabitSubmitted={this.props.reloadHabits}/>
             </div>
         );
     }

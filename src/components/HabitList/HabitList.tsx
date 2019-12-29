@@ -4,14 +4,16 @@ import Habit from "../Habit/Habit";
 import {HabitItem} from "../../models";
 
 interface HabitListProps {
-    habits: HabitItem[];
-    selectHabitFunction: (habitId) => void;
+    habits: HabitItem[]
+    selectedItem: number
+    reloadHabits: () => void
+    selectHabitFunction: (habitId) => void
 }
 
 class HabitList extends Component<HabitListProps> {
 
     getHabits = () => {
-        return this.props.habits.map((habit: HabitItem) => <Habit selectHabitFunction={this.props.selectHabitFunction} key={habit.id} id={habit.id} habit={habit.content}/>)
+        return this.props.habits.map((habit: HabitItem) => <Habit isSelected={this.props.selectedItem === habit.id} reloadHabits={this.props.reloadHabits} selectHabitFunction={this.props.selectHabitFunction} key={habit.id} habit={habit}/>)
     };
 
     render() {

@@ -7,17 +7,18 @@ interface HabitCheckProps {
     habitId: number
     date: string
     onCheck: () => void
-    turnOffCheckMode: () => void
+    logId?: number
 }
 
 class HabitCheck extends Component<HabitCheckProps> {
 
     handleClick(check: HabitLogType) {
-        const {habitId, date} = this.props;
+        const {logId, habitId, date} = this.props;
         return () => {
-            this.props.turnOffCheckMode();
-            HabitService.checkHabit(habitId, date, check)
-                .then(() => this.props.onCheck());
+            (this.props.logId ?
+                HabitService.updateHabitLog(logId,habitId,date,check) :
+                HabitService.setHabit(habitId, date, check))
+                .then(this.props.onCheck);
         }
     };
 

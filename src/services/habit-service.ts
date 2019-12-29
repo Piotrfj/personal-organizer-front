@@ -1,26 +1,45 @@
 import axios from "axios";
 import {apiUrl} from "../config";
 import {HabitLogType} from "../model-enum";
-import {HabitItem} from "../models";
+import {HabitItem, HabitLog} from "../models";
 
 export const getHabits = () => {
-    return axios.get<HabitItem[]>(`${apiUrl}/habits`)
+    return axios.get<HabitItem[]>(`${apiUrl}/habits`);
 };
 
 export const createHabit = (content: string) => {
     return axios.post(`${apiUrl}/habits`, {
         content
-    })
+    });
 };
 
-export const getLog = () => {
-
+export const updateHabit = (id: number, content: string) => {
+    return axios.put(`${apiUrl}/habits`, {
+        id,
+        content
+    });
 };
 
+export const deleteHabit = (id: number) => {
+    return axios.delete(`${apiUrl}/habits/${id}`,);
+};
 
-export const checkHabit = (habitId: number, date: string, check: HabitLogType ) => {
-    return axios.post(`${apiUrl}/log/${habitId}`, {
+export const getLog = (habitId: number) => {
+    return axios.get<HabitLog[]>(`${apiUrl}/log/${habitId}`);
+};
+
+export const setHabit = (habitId: number, date: string, check: HabitLogType) => {
+    return axios.post(`${apiUrl}/log`, {
+        habitId,
         date,
         check
-    })
+    });
+};
+
+export const updateHabitLog = (id: number, habitId: number, date: string, check: HabitLogType) => {
+    return axios.put(`${apiUrl}/log/${id}`, {
+        habitId,
+        date,
+        check
+    });
 };

@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import axios, {AxiosResponse} from "axios";
-import {apiUrl} from '../../config'
 import './Calendar.scss'
 import CalendarCell from "./CalendarCell";
 import {HabitLog} from "../../models";
 import {HabitLogType} from "../../model-enum";
+import {getLog} from "../../services/habit-service";
 
 interface CalendarState {
     currentMonth: number;
     currentMonthChecks: HabitLogType[]
+    currentHabitLogs: HabitLog[]
 }
 
 interface CalendarProps {
@@ -22,6 +22,7 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     state = {
         currentMonth: new Date().getMonth(),
         currentMonthChecks: [],
+        currentHabitLogs: []
     };
 
     constructor(props: CalendarProps) {
@@ -46,13 +47,33 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     }
 
     private loadCurrentHabitLog = () => {
-        axios.get(`${apiUrl}/log/${this.props.selectedHabit}`)
-            .then((habitLog: AxiosResponse<HabitLog[]>) => {
-                this.setState({currentMonthChecks: this.getHabitLogTypesForCurrentMonth(habitLog.data)});
+        getLog(this.props.selectedHabit)
+            .then(habitLog => {
+                this.setState({
+                    currentMonthChecks: this.getHabitLogTypesForCurrentMonth(habitLog.data),
+                    currentHabitLogs: habitLog.data
+                });
             });
     };
 
-    private getDays = () => this.state.currentMonthChecks.map((el, i) => <CalendarCell habitId={this.props.selectedHabit} onCheck={this.loadCurrentHabitLog} date={this.formatDate(new Date(this.currentDate.getFullYear(), this.state.currentMonth, i+1))} type={el}/>);
+    private getDays = () => {
+        const calendarCells = [];
+        for (let i = 1; i <= this.getDaysAmountInMonth(this.state.currentMonth); i++) {
+            calendarCells.push(<CalendarCell habitId={this.props.selectedHabit}
+                                             onCheck={this.loadCurrentHabitLog}
+                                             date={this.formatDate(new Date(this.currentDate.getFullYear(), this.state.currentMonth, i))}
+                                             type={HabitLogType.EMPTY}/>)
+        }
+        this.state.currentHabitLogs.filter((habitLog: HabitLog) => new Date(habitLog.date).getMonth() === this.state.currentMonth).forEach((habitLog: HabitLog) => {
+            calendarCells[new Date(habitLog.date).getDate() - 1] = <CalendarCell logId={habitLog.id}
+                                                                                 habitId={this.props.selectedHabit}
+                                                                                 onCheck={this.loadCurrentHabitLog}
+                                                                                 date={habitLog.date}
+                                                                                 type={habitLog.checkType}/>
+        });
+        return calendarCells;
+    };
+
 
     private getPreviousMonthFillingDays(): JSX.Element[] {
         const daysAmountInPreviousMonth = this.getDaysAmountInMonth(this.state.currentMonth - 1);

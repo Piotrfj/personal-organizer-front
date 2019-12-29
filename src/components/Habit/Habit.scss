@@ -1,7 +1,14 @@
+@import "../../vars";
+
 .habit {
   padding: .5rem;
   &:hover {
     background-color: #eee;
     cursor: pointer;
   }
+
+  &--selected {
+    background-color: $habit-selected-bgc;
+  }
+
 }

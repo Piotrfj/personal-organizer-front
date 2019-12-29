@@ -43,6 +43,8 @@ class HabitTable extends Component<{}, HabitTableState> {
                 <div>
                     <HabitList
                         habits={this.state.habits}
+                        selectedItem={this.state.selectedItem}
+                        reloadHabits={this.reloadHabits}
                         selectHabitFunction={this.selectHabit}/>
                 </div>
                 {this.state.selectedItem ? <HabitDetails reloadHabits={this.reloadHabits} selectedItem={this.state.selectedItem}/> : ''}
