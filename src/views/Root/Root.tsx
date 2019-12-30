@@ -1,15 +1,21 @@
 import React, {Component} from "react";
 import './Root.scss';
+import { BrowserRouter, Route, NavLink} from 'react-router-dom'
 import HabitTable from "../HabitTable/HabitTable";
 
 export default class Root extends Component {
     render() {
         return (
             <div className={"core-view"}>
-                <nav className={"core-vew__nav"}>menu will be here</nav>
-                <section className={"core-view__view"}>
-                    <HabitTable/>
-                </section>
+                <nav className={"core-vew__nav"}>
+                    {/*<NavLink to="/">Main</NavLink>*/}
+                    {/*<NavLink to="/habits">HABITS</NavLink>*/}
+                </nav>
+                <BrowserRouter>
+                    <>
+                        <Route path="/habits" component={HabitTable}/>
+                        </>
+                </BrowserRouter>
             </div>
         );
     }
