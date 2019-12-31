@@ -4,11 +4,16 @@ import CalendarCell from "./CalendarCell";
 import {HabitLog} from "../../models";
 import {HabitLogType} from "../../model-enum";
 import {getLog} from "../../services/habit-service";
+import HabitCheck from "../HabitCheck/HabitCheck";
 
 interface CalendarState {
     currentMonth: number;
     currentMonthChecks: HabitLogType[]
     currentHabitLogs: HabitLog[]
+    checkMode: boolean
+    currentSelectedDate: string
+    currentSelectedLogId: number
+    top: number
 }
 
 interface CalendarProps {
@@ -22,7 +27,11 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     state = {
         currentMonth: new Date().getMonth(),
         currentMonthChecks: [],
-        currentHabitLogs: []
+        currentHabitLogs: [],
+        checkMode: false,
+        currentSelectedDate: null,
+        currentSelectedLogId: null,
+        top: null
     };
 
     constructor(props: CalendarProps) {
@@ -42,6 +51,14 @@ class Calendar extends Component<CalendarProps, CalendarState> {
                 {this.getPreviousMonthFillingDays()}
                 {this.getDays()}
                 {this.getFollowingMonthFillingDays()}
+                {this.state.checkMode && (
+                    <div className={'calendar__check-modal'} style={{top: this.state.top}} onMouseLeave={this.turnOffCheckMode}>
+                        <HabitCheck onCheck={this.loadCurrentHabitLog}
+                                    logId={this.state.currentSelectedLogId}
+                                    habitId={this.props.selectedHabit}
+                                    date={this.state.currentSelectedDate}/>
+                    </div>
+                )}
             </div>
         );
     }
@@ -59,17 +76,16 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     private getDays = () => {
         const calendarCells = [];
         for (let i = 1; i <= this.getDaysAmountInMonth(this.state.currentMonth); i++) {
-            calendarCells.push(<CalendarCell habitId={this.props.selectedHabit}
-                                             onCheck={this.loadCurrentHabitLog}
-                                             date={this.formatDate(new Date(this.currentDate.getFullYear(), this.state.currentMonth, i))}
+            let dateFormatted = this.formatDate(new Date(this.currentDate.getFullYear(), this.state.currentMonth, i))
+            calendarCells.push(<CalendarCell onCheck={(top: number) => this.turnOnCheckMode(top, dateFormatted)}
+                                             date={dateFormatted}
                                              type={HabitLogType.EMPTY}/>)
         }
         this.state.currentHabitLogs.filter((habitLog: HabitLog) => new Date(habitLog.date).getMonth() === this.state.currentMonth).forEach((habitLog: HabitLog) => {
-            calendarCells[new Date(habitLog.date).getDate() - 1] = <CalendarCell logId={habitLog.id}
-                                                                                 habitId={this.props.selectedHabit}
-                                                                                 onCheck={this.loadCurrentHabitLog}
-                                                                                 date={habitLog.date}
-                                                                                 type={habitLog.checkType}/>
+            calendarCells[new Date(habitLog.date).getDate() - 1] =
+                <CalendarCell onCheck={(top: number) => this.turnOnCheckMode(top, habitLog.date, habitLog.id)}
+                              date={habitLog.date}
+                              type={habitLog.checkType}/>
         });
         return calendarCells;
     };
@@ -82,8 +98,7 @@ class Calendar extends Component<CalendarProps, CalendarState> {
         for (let i = daysAmountInPreviousMonth - daysToFill + 1; i <= daysAmountInPreviousMonth; i++) {
             const date = new Date(this.currentDate.getFullYear(), this.state.currentMonth - 1, i);
             PreviousMonthDaysAsCells.push(<CalendarCell date={this.formatDate(date)}
-                                                        type={HabitLogType.EMPTY}
-                                                        habitId={this.props.selectedHabit}/>);
+                                                        type={HabitLogType.EMPTY}/>);
         }
         return PreviousMonthDaysAsCells;
     }
@@ -94,8 +109,7 @@ class Calendar extends Component<CalendarProps, CalendarState> {
         for (let i = 1; i <= daysToFill; i++) {
             const date = new Date(this.currentDate.getFullYear(), this.state.currentMonth + 1, i);
             FollowingMonthDaysAsCells.push(<CalendarCell date={this.formatDate(date)}
-                                                         type={HabitLogType.EMPTY}
-                                                         habitId={this.props.selectedHabit}/>);
+                                                         type={HabitLogType.EMPTY}/>);
         }
         return FollowingMonthDaysAsCells;
     }
@@ -130,6 +144,24 @@ class Calendar extends Component<CalendarProps, CalendarState> {
 
         return [year, month, day].join('-');
     }
+
+    private turnOnCheckMode = (top: number, currentSelectedDate: string, currentSelectedLogId: number = null) => {
+        this.setState({
+            checkMode: true,
+            currentSelectedDate,
+            currentSelectedLogId,
+            top
+        });
+    };
+
+    private turnOffCheckMode = () => {
+        this.setState({
+            checkMode: false,
+            currentSelectedDate: null,
+            currentSelectedLogId: null,
+            top: null
+        });
+    };
 }
 
 export default Calendar;

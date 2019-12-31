@@ -5,6 +5,10 @@
   justify-content: center;
   align-items: center;
 
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 2px 2px 5px 3px lightgrey;
+
   &__button {
     width: 80px;
     cursor: pointer;

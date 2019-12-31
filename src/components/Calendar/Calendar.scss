@@ -1,8 +1,16 @@
 .calendar {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, 3rem);
   grid-auto-rows: 3rem;
   grid-gap: .5rem;
+
+  &__check-modal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
 
   .cell {
     background-color: #eee;
@@ -40,12 +48,6 @@
     &--doesnt-count {
       background-color: dimgrey;
       color: white;
-    }
-
-    &__check-options {
-      position: absolute;
-      top: 100%;
-      z-index: 1;
     }
   }
 }
