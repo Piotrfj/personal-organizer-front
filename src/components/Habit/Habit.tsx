@@ -9,6 +9,8 @@ export interface HabitProps {
     isSelected: boolean
     reloadHabits: () => void
     selectHabitFunction: (habitId) => void
+    goUp: () => void
+    goDown: () => void
 }
 
 interface HabitState {
@@ -36,7 +38,9 @@ export default class Habit extends Component<HabitProps, HabitState> {
                 <div>
                     <p>{this.props.habit.content}</p>
                     <button onClick={this.handleEditClick}>Edit</button>
-                    <button disabled={true} onClick={this.handleDelete}>delete</button>
+                    <button disabled={false} onClick={this.handleDelete}>delete</button>
+                    <button onClick={this.props.goUp}>go up</button>
+                    <button onClick={this.props.goDown}>go down</button>
                 </div>
                 {this.state.editMode && <HabitCreator onHabitSubmitted={this.handleHabitUpdated} habit={this.props.habit}/>}
             </div>

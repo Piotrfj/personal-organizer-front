@@ -39,15 +39,15 @@ class HabitTable extends Component<{}, HabitTableState> {
 
     render() {
         return (
-            <div className={'habitTable'}>
-                <div>
+            <div className={'habit-table'}>
+                <div className={'habit-table__list'}>
                     <HabitList
                         habits={this.state.habits}
                         selectedItem={this.state.selectedItem}
                         reloadHabits={this.reloadHabits}
                         selectHabitFunction={this.selectHabit}/>
                 </div>
-                {this.state.selectedItem ? <HabitDetails reloadHabits={this.reloadHabits} selectedItem={this.state.selectedItem}/> : ''}
+                {this.state.selectedItem && <HabitDetails reloadHabits={this.reloadHabits} selectedItem={this.state.selectedItem}/>}
             </div>
         );
     }

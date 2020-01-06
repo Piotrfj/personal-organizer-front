@@ -1,4 +1,10 @@
-.habitTable {
+.habit-table {
   display: grid;
   grid-template-columns: 1fr auto;
+  height: 100vh;
+  padding: 1rem;
+
+  &__list {
+    overflow: auto;
+  }
 }

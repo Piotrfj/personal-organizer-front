@@ -21,7 +21,14 @@ export const updateHabit = (id: number, content: string) => {
 };
 
 export const deleteHabit = (id: number) => {
-    return axios.delete(`${apiUrl}/habits/${id}`,);
+    return axios.delete(`${apiUrl}/habits/${id}`);
+};
+
+export const swapHabitsPositions = (firstHabit: HabitItem, secondHabit: HabitItem) => {
+    return axios.put(`${apiUrl}/habits/swap`, {
+        firstHabit,
+        secondHabit
+    });
 };
 
 export const getLog = (habitId: number) => {

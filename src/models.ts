@@ -7,6 +7,7 @@ export interface Habit {
 export interface HabitItem {
     id: number,
     content: string,
+    positionOrder: number,
 }
 
 export  interface HabitLog {
