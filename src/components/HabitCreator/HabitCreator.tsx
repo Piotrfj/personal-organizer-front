@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {createHabit, updateHabit} from "../../services/habit-service";
 import {HabitItem} from "../../models";
+import {removeItem as removeItemAction} from 'actions';
 
 interface HabitManagementState {
     content: string
@@ -9,6 +11,7 @@ interface HabitManagementState {
 interface HabitManagementProps {
     habit?: HabitItem
     onHabitSubmitted?: () => void
+    removeItem: (string, number) => void
 }
 
 class HabitCreator extends Component<HabitManagementProps, HabitManagementState> {
@@ -35,7 +38,7 @@ class HabitCreator extends Component<HabitManagementProps, HabitManagementState>
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={e => {e.preventDefault(); this.props.removeItem('kupa', 3)}}>
                 <label htmlFor="habitContent">Content</label>
                 <input type="text" id={"habitContent"}
                        value={this.state.content}
@@ -46,4 +49,11 @@ class HabitCreator extends Component<HabitManagementProps, HabitManagementState>
     }
 }
 
-export default HabitCreator;
+const mapDispatchToProps = dispatch => ({
+    removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
+});
+
+export default connect(
+    null,
+    mapDispatchToProps,
+)(HabitCreator);
