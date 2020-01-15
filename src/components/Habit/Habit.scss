@@ -2,13 +2,23 @@
 
 .habit {
   padding: .5rem;
+  margin: 0 .5rem 1rem;
+  box-shadow: 1px 1px 5px 1px lightgrey;
   &:hover {
-    background-color: #eee;
+    background-color: darken($habit-selected-bgc, 10%);
     cursor: pointer;
   }
 
   &--selected {
     background-color: $habit-selected-bgc;
+  }
+
+  &--checked {
+    background-color: #33aa55;
+
+    &:hover {
+      background-color: darken(lightgreen, 10%);
+    }
   }
 
 }
