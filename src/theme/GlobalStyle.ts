@@ -2,8 +2,6 @@ import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,600&display=swap&subset=latin-ext');
-
   *, *::before, *::after {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;

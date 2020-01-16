@@ -1,16 +1,22 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import {BrowserRouter, Route, NavLink, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import store from 'store'
-import HabitTable from "../HabitTable/HabitTable";
-import './Root.scss';
-import Button from "components/atoms/Button";
-import GlobalStyle from "theme/GlobalStyle";
+import { globalStore } from 'store'
+import HabitView from './HabitTable/HabitView';
+import Button from 'components/atoms/Button';
+import GlobalStyle from 'theme/GlobalStyle';
+import { removeItem as removeItemAction } from '../actions';
 
 export default class Root extends Component {
+
+    componentDidMount(): void {
+        // globalStore.dispatch(removeItemAction('SMTH', 4));
+    }
+
+
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={globalStore}>
                 <GlobalStyle/>
                 <BrowserRouter>
                     <>
@@ -20,7 +26,7 @@ export default class Root extends Component {
                             <NavLink to="/habits">HABITS</NavLink>
                         </nav>
                         <Route exact path="/" render={() => <Redirect to="/habits"/>}/>
-                        <Route path="/habits" component={HabitTable}/>
+                        <Route path="/habits" component={HabitView}/>
                     </>
                 </BrowserRouter>
             </Provider>

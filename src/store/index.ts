@@ -1,11 +1,17 @@
 import {createStore} from 'redux';
-import habitsApp from 'reducers';
+import coreReducer, {habitReducer} from 'reducers';
 
-const store = createStore(
-    habitsApp /* preloadedState, */,
+export const globalStore = createStore(
+    coreReducer,
     // @ts-ignore
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 
 
-export default store;
+export const habitStore = createStore(
+    habitReducer,
+    // @ts-ignore
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+export default globalStore;
