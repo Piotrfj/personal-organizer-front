@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import HabitList from '../../components/HabitList/HabitList';
 import HabitDetails from './HabitDetails';
+import { connect } from 'react-redux';
 import './HabitTable.scss';
 import { HabitItem } from '../../models';
 import { getHabits } from '../../services/habit-service';
-import { habitStore } from 'store';
-import { Provider } from 'react-redux';
 import { loadData as loadDataAction, selectHabit as selectHabitAction} from 'actions'
 
 interface HabitTableState {
@@ -13,7 +12,7 @@ interface HabitTableState {
   selectedItem: number,
 }
 
-class HabitView extends Component<{}, HabitTableState> {
+class HabitView extends Component<{selectHabit, loadData, selectedItem}, HabitTableState> {
 
   state = {
     habits: [],
@@ -25,47 +24,37 @@ class HabitView extends Component<{}, HabitTableState> {
   }
 
   loadHabits = () => {
-      const data = [{id: 1, content: "test", position: 1}];
-      habitStore.dispatch(loadDataAction(data));
-    // getHabits().then((res) => {
-    //   // this.setState({habits: res.data, selectedItem: res.data[0].id})
-    //   //   const data = res.data;
-    //     const data = [{id: 1, content: "test", position: 1}];
-    //     habitStore.dispatch(loadDataAction(res.data));
-    //     this.selectHabit(res.data[0].id);
-    // });
-      // @ts-ignore
-      this.selectHabit(habitStore.getState().habits[0].id)
-      console.log(habitStore.getState());
+    getHabits().then((res) => {
+        this.props.loadData(res.data);
+        this.props.selectHabit(res.data[0].id);
+    });
   };
 
   reloadHabits = () => {
     getHabits().then((res) => {
-      this.setState({habits: res.data})
+      this.props.loadData(res.data);
     });
-  };
-
-  selectHabit = (habitId) => {
-    habitStore.dispatch(selectHabitAction(habitId))
   };
 
   render() {
     return (
-        <Provider store={habitStore}>
           <div className={'habit-table'}>
             <div className={'habit-table__list'}>
               <HabitList
-                  habits={this.state.habits}
                   selectedItem={this.state.selectedItem}
-                  reloadHabits={this.reloadHabits}
-                  selectHabitFunction={this.selectHabit}/>
+                  reloadHabits={this.reloadHabits}/>
             </div>
-            {this.state.selectedItem &&
-            <HabitDetails reloadHabits={this.reloadHabits} selectedItem={this.state.selectedItem}/>}
+            <HabitDetails reloadHabits={this.reloadHabits}/>
           </div>
-        </Provider>
     );
   }
 }
 
-export default HabitView;
+const mapDispatchToProps = dispatch => ({
+  loadData: data => dispatch(loadDataAction(data)),
+  selectHabit: habitId => dispatch(selectHabitAction(habitId))
+});
+
+const mapStateToProps = ({ selecteditem }) => ({ selectedItem });
+
+export default connect(mapStateToProps, mapDispatchToProps)(HabitView);

@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import './HabitList.css';
 import Habit from "../Habit/Habit";
 import {HabitItem} from "../../models";
 import {swapHabitsPositions} from "../../services/habit-service";
 
 interface HabitListProps {
-    habits: HabitItem[]
+    habits?: HabitItem[]
     selectedItem: number
     reloadHabits: () => void
     selectHabitFunction: (habitId) => void
@@ -42,4 +43,6 @@ class HabitList extends Component<HabitListProps> {
     }
 }
 
-export default HabitList;
+const mapStateToProps = ({ habits }) => ({ habits });
+
+export default connect(mapStateToProps)(HabitList);

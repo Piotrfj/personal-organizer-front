@@ -164,4 +164,6 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     };
 }
 
-export default Calendar;
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

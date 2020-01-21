@@ -1,19 +1,4 @@
-const rootReducer = (state = {}, action) => {
-  switch (action.type) {
-    case 'REMOVE_ITEM':
-      console.log('works');
-      console.log(action);
-      break;
-    default:
-      return state;
-  }
-};
-
-const habitInitialState = {
-  habits: []
-};
-
-export const habitReducer = (state = habitInitialState, action) => {
+export const habitReducer = (state, action) => {
   switch (action.type) {
     case 'LOAD_DATA':
       return {
@@ -28,6 +13,14 @@ export const habitReducer = (state = habitInitialState, action) => {
     default:
       return state;
   }
+};
+
+const rootReducer = (state = habitInitialState, action) => {
+  return habitReducer(state, action);
+};
+
+const habitInitialState = {
+  habits: []
 };
 
 export default rootReducer;

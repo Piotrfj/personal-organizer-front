@@ -12,7 +12,7 @@ class HabitDetails extends Component<HabitDetailsProps> {
     render() {
         return (
             <div className={"habit-details"}>
-                <Calendar selectedHabit={this.props.selectedItem}/>
+                <Calendar/>
                 <HabitCreator onHabitSubmitted={this.props.reloadHabits}/>
             </div>
         );
