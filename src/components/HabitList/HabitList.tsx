@@ -6,7 +6,7 @@ import {HabitItem} from "../../models";
 import {swapHabitsPositions} from "../../services/habit-service";
 
 interface HabitListProps {
-    habits?: HabitItem[]
+    items?: HabitItem[]
     selectedItem: number
     reloadHabits: () => void
     selectHabitFunction: (habitId) => void
@@ -22,7 +22,7 @@ class HabitList extends Component<HabitListProps> {
     };
 
     getHabits = () => {
-        const sortedHabits = [...this.props.habits].sort((a, b) => a.positionOrder > b.positionOrder ? 1 : -1);
+        const sortedHabits = [...this.props.items].sort((a, b) => a.positionOrder > b.positionOrder ? 1 : -1);
 
         return sortedHabits.map((habit, i, habits) => <Habit
             goUp={i === 0 ? () => {} : this.swapHabitsPositions(habit, habits[i-1])}
@@ -43,6 +43,6 @@ class HabitList extends Component<HabitListProps> {
     }
 }
 
-const mapStateToProps = ({ habits }) => ({ habits });
+const mapStateToProps = ({ habits: { items } }) => ({ items });
 
 export default connect(mapStateToProps)(HabitList);

@@ -5,6 +5,8 @@ import {HabitLog} from "../../models";
 import {HabitLogType} from "../../model-enum";
 import {getLog} from "../../services/habit-service";
 import HabitCheck from "../HabitCheck/HabitCheck";
+import { connect } from 'react-redux'
+import {selectHabit} from "../../actions";
 
 interface CalendarState {
     currentMonth: number;
@@ -36,11 +38,10 @@ class Calendar extends Component<CalendarProps, CalendarState> {
 
     constructor(props: CalendarProps) {
         super(props);
-        this.loadCurrentHabitLog();
     }
 
     componentDidUpdate(prevProps: Readonly<CalendarProps>): void {
-        if (prevProps.selectedHabit !== this.props.selectedHabit) {
+        if (this.props.selectedHabit && prevProps.selectedHabit !== this.props.selectedHabit) {
             this.loadCurrentHabitLog()
         }
     }
@@ -64,6 +65,8 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     }
 
     private loadCurrentHabitLog = () => {
+        console.log('k');
+        console.log(this.props);
         getLog(this.props.selectedHabit)
             .then(habitLog => {
                 this.setState({
@@ -164,6 +167,10 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     };
 }
 
+const mapStateToProps = state => ({
+  selectHabit: state.habits.selectedItem,
+});
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+// export default Calendar;
+export default connect(mapStateToProps)(Calendar);

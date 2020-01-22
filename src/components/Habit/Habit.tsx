@@ -5,12 +5,14 @@ import {HabitItem, HabitLog} from "../../models";
 import {deleteHabit, getLog} from "../../services/habit-service";
 import {AxiosResponse} from "axios";
 import {formatDate} from "../../utils";
+import {selectHabit} from "../../actions";
+import {connect} from 'react-redux';
 
 export interface HabitProps {
     habit: HabitItem
     isSelected: boolean
     reloadHabits: () => void
-    selectHabitFunction: (habitId) => void
+    selectHabit: (habitId) => void
     goUp: () => void
     goDown: () => void
 }
@@ -20,7 +22,7 @@ interface HabitState {
     lastCheckedDay: Date
 }
 
-export default class Habit extends Component<HabitProps, HabitState> {
+class Habit extends Component<HabitProps, HabitState> {
 
     currentDateFormatted = formatDate(new Date());
 
@@ -64,7 +66,7 @@ export default class Habit extends Component<HabitProps, HabitState> {
         const {lastCheckedDay} = this.state;
         return (
             <div className={`habit${this.props.isSelected ? ' habit--selected' : ''}${formatDate(lastCheckedDay) === this.currentDateFormatted ? ' habit--checked' : ''}`}
-                 onClick={this.props.selectHabitFunction.bind(this.props, this.props.habit.id)}>
+                 onClick={this.props.selectHabit.bind(this.props, this.props.habit.id)}>
                 <div>
                     <p>{this.props.habit.content}</p>
                     <button onClick={this.handleEditClick}>Edit</button>
@@ -89,3 +91,5 @@ export default class Habit extends Component<HabitProps, HabitState> {
         deleteHabit(this.props.habit.id).then(this.props.reloadHabits);
     };
 }
+
+export default connect(null, { selectHabit })(Habit);
