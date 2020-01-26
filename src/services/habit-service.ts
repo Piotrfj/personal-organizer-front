@@ -50,3 +50,7 @@ export const updateHabitLog = (id: number, habitId: number, date: string, check:
         check
     });
 };
+
+export const getLastLogs = () => {
+  return axios.get(`${apiUrl}/log/last`)
+};

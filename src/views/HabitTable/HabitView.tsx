@@ -3,49 +3,27 @@ import HabitList from '../../components/HabitList/HabitList';
 import HabitDetails from './HabitDetails';
 import { connect } from 'react-redux';
 import './HabitTable.scss';
-import { HabitItem } from '../../models';
-import { loadHabits, selectHabit } from 'actions'
+import {loadHabits, loadLastCheckLog, selectHabit} from 'actions'
 
-interface HabitTableState {
-  habits: HabitItem[];
-  selectedItem: number,
-}
-
-class HabitView extends Component<{selectHabit, loadHabits, habits}, HabitTableState> {
-
-  state = {
-    habits: [],
-    selectedItem: null,
-  };
+class HabitView extends Component<{selectHabit, loadHabits, habits, loadLastCheckLog}> {
 
   componentDidMount(): void {
-    this.loadHabits()
+    this.props.loadHabits();
+    this.props.loadLastCheckLog();
   }
-
-  loadHabits = () => {
-    this.props.loadHabits();
-    this.props.selectHabit(this.props.habits[0]);
-  };
-
-  reloadHabits = () => {
-    this.props.loadHabits();
-  };
 
   render() {
     return (
           <div className={'habit-table'}>
             <div className={'habit-table__list'}>
-              <HabitList
-                  reloadHabits={this.reloadHabits}/>
+              <HabitList/>
             </div>
-            <HabitDetails reloadHabits={this.reloadHabits}/>
+            <HabitDetails/>
           </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  habits: state.habits.items,
-});
+const mapStateToProps = ({ habits: { items } }) => ({ items });
 
-export default connect(mapStateToProps, { loadHabits, selectHabit })(HabitView);
+export default connect(mapStateToProps, { loadHabits, selectHabit, loadLastCheckLog })(HabitView);

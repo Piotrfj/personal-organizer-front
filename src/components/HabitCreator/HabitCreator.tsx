@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {createHabit, updateHabit} from "../../services/habit-service";
 import {HabitItem} from "../../models";
+import {loadHabits} from "../../actions";
 
 interface HabitManagementState {
     content: string
@@ -9,7 +10,7 @@ interface HabitManagementState {
 
 interface HabitManagementProps {
     habit?: HabitItem
-    onHabitSubmitted?: () => void
+    loadHabits: () => void
 }
 
 class HabitCreator extends Component<HabitManagementProps, HabitManagementState> {
@@ -31,7 +32,7 @@ class HabitCreator extends Component<HabitManagementProps, HabitManagementState>
     };
 
     refreshHabitList = () => {
-        if (this.props.onHabitSubmitted) this.props.onHabitSubmitted();
+        if (this.props.loadHabits) this.props.loadHabits();
     };
 
     render() {
@@ -47,10 +48,4 @@ class HabitCreator extends Component<HabitManagementProps, HabitManagementState>
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-});
-
-export default connect(
-    null,
-    mapDispatchToProps,
-)(HabitCreator);
+export default connect(null, { loadHabits })(HabitCreator);

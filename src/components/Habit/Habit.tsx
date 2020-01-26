@@ -1,20 +1,20 @@
 import React, {Component} from 'react';
 import './Habit.scss';
 import HabitCreator from "../HabitCreator/HabitCreator";
-import {HabitItem, HabitLog} from "../../models";
-import {deleteHabit, getLog} from "../../services/habit-service";
-import {AxiosResponse} from "axios";
+import {HabitItem} from "../../models";
+import {deleteHabit} from "../../services/habit-service";
 import {formatDate} from "../../utils";
 import {selectHabit} from "../../actions";
 import {connect} from 'react-redux';
 
 export interface HabitProps {
     habit: HabitItem
-    isSelected: boolean
     reloadHabits: () => void
     selectHabit: (habitId) => void
     goUp: () => void
     goDown: () => void
+    selectedHabit: number
+    lastCheckDate: string
 }
 
 interface HabitState {
@@ -31,28 +31,6 @@ class Habit extends Component<HabitProps, HabitState> {
         lastCheckedDay: null
     };
 
-    componentDidMount(): void {
-        this.setLastCheckedDay();
-    }
-
-    setLastCheckedDay() {
-        this.getLastCheckedDay().then(lastCheckedDay => {
-            this.setState({lastCheckedDay})
-        })
-    }
-
-    getLastCheckedDay = () => {
-        return getLog(this.props.habit.id).then((log: AxiosResponse<HabitLog[]>) => {
-            return log.data;
-        }).then((habitLogs) => {
-            const lastCheckDay = habitLogs.sort((a,b) => {
-                if (a.date > b.date) return 1;
-                else return -1;
-            }).filter(habitLog => habitLog.date <= this.currentDateFormatted).pop();
-            return lastCheckDay ? new Date(lastCheckDay.date) : null;
-        })
-    };
-
     handleEditClick = () => {
         this.toggleEditMode();
     };
@@ -63,9 +41,10 @@ class Habit extends Component<HabitProps, HabitState> {
     };
 
     public render() {
-        const {lastCheckedDay} = this.state;
+        const {lastCheckDate} = this.props;
+        const isSelected = this.props.habit.id === this.props.selectedHabit;
         return (
-            <div className={`habit${this.props.isSelected ? ' habit--selected' : ''}${formatDate(lastCheckedDay) === this.currentDateFormatted ? ' habit--checked' : ''}`}
+            <div className={`habit${isSelected ? ' habit--selected' : ''}${lastCheckDate === this.currentDateFormatted ? ' habit--checked' : ''}`}
                  onClick={this.props.selectHabit.bind(this.props, this.props.habit.id)}>
                 <div>
                     <p>{this.props.habit.content}</p>
@@ -73,7 +52,7 @@ class Habit extends Component<HabitProps, HabitState> {
                     <button disabled={false} onClick={this.handleDelete}>delete</button>
                     <button onClick={this.props.goUp}>go up</button>
                     <button onClick={this.props.goDown}>go down</button>
-                    <p>{lastCheckedDay ? lastCheckedDay.getDate() : 'never'}</p>
+                    <p>{lastCheckDate ? lastCheckDate : 'never'}</p>
                 </div>
                 {this.state.editMode &&
                 <HabitCreator onHabitSubmitted={this.handleHabitUpdated} habit={this.props.habit}/>}
@@ -92,4 +71,6 @@ class Habit extends Component<HabitProps, HabitState> {
     };
 }
 
-export default connect(null, { selectHabit })(Habit);
+const mapStateToProps = ({ habits: { selectedHabit } }) => ({ selectedHabit });
+
+export default connect(mapStateToProps, { selectHabit })(Habit);
