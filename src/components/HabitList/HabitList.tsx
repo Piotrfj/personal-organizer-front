@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import './HabitList.css';
 import Habit from "../Habit/Habit";
 import {HabitItem} from "../../models";
 import {swapHabitsPositions} from "../../services/habit-service";
 import {loadHabits} from "../../actions";
+import styled from 'styled-components';
+
 
 interface HabitListProps {
     items?: HabitItem[]
@@ -13,6 +14,12 @@ interface HabitListProps {
     selectHabitFunction: (habitId) => void
     lastCheckLog
 }
+
+const Wrapper = styled.div`
+  padding-top: 20px;
+  padding-right: 10px;
+  overflow: auto;
+`;
 
 class HabitList extends Component<HabitListProps> {
 
@@ -43,9 +50,9 @@ class HabitList extends Component<HabitListProps> {
 
     render() {
         return (
-            <div className={'habits-list'}>
+            <Wrapper>
                 {this.getHabits()}
-            </div>
+            </Wrapper>
         );
     }
 }

@@ -29,7 +29,7 @@ class HabitCheck extends Component<HabitCheckProps> {
             <div className={'habit-check'}>
                 <button onClick={this.handleClick(HabitLogType.DOESNT_COUNT)} className={'habit-check__button'}>not today</button>
                 <button onClick={this.handleClick(HabitLogType.FAIL)} className={'habit-check__button'}>failed</button>
-                <button onClick={this.handleClick(HabitLogType.PARTIALLY)} className={'habit-check__button'}>partially</button>
+                <button onClick={this.handleClick(HabitLogType.WARNING)} className={'habit-check__button'}>partially</button>
                 <button onClick={this.handleClick(HabitLogType.SUCCESS)} className={'habit-check__button'}>perfectly</button>
             </div>
         );

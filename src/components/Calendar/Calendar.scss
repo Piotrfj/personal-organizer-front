@@ -1,8 +1,8 @@
 .calendar {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(7, 3rem);
-  grid-auto-rows: 3rem;
+  grid-template-columns: repeat(7, 4rem);
+  grid-auto-rows: 4rem;
   grid-gap: .5rem;
 
   &__check-modal {
@@ -10,44 +10,5 @@
     left: 0;
     right: 0;
     z-index: 1;
-  }
-
-  .cell {
-    background-color: #eee;
-    border: 1px solid #999;
-    border-radius: 50%;
-
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &--disabled {
-      color: grey;
-    }
-
-    &--success {
-      background-color: green;
-      color: white;
-    }
-
-    &--fail {
-      background-color: red;
-      color: white;
-    }
-
-    &--partially {
-      background-color: orange;
-      color: white;
-    }
-
-    &--doesnt-count {
-      background-color: dimgrey;
-      color: white;
-    }
   }
 }

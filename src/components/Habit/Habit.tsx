@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import './Habit.scss';
 import HabitCreator from "../HabitCreator/HabitCreator";
 import {HabitItem} from "../../models";
 import {deleteHabit} from "../../services/habit-service";
 import {formatDate} from "../../utils";
 import {selectHabit} from "../../actions";
 import {connect} from 'react-redux';
+import styled, {css} from 'styled-components';
+import Button from "../atoms/Button";
+import ButtonWrapper from "../atoms/ButtonWrapper";
 
 export interface HabitProps {
     habit: HabitItem
@@ -21,6 +23,33 @@ interface HabitState {
     editMode: boolean
     lastCheckedDay: Date
 }
+
+const Wrapper = styled.div`
+  padding: .5rem;
+  border: 1px solid ${({theme}) => theme.paletteBlue.text1};
+  &:nth-child(n+2) {
+  border-top: none;
+  }
+  &:hover {
+    background-color: ${({theme}) => theme.paletteBlue.text1};
+    cursor: pointer;
+  }
+
+  ${({isSelected, theme}) =>
+    isSelected &&
+    css`
+      background-color: ${theme.paletteBlue.main};
+    `}
+
+   ${({isChecked}) =>
+    isChecked &&
+    css`
+      background-color: #33aa55;
+      &:hover {
+        background-color: lightgreen;
+      }
+    `}
+`;
 
 class Habit extends Component<HabitProps, HabitState> {
 
@@ -43,20 +72,23 @@ class Habit extends Component<HabitProps, HabitState> {
     public render() {
         const {lastCheckDate} = this.props;
         const isSelected = this.props.habit.id === this.props.selectedHabit;
+        const isChecked = lastCheckDate === this.currentDateFormatted;
         return (
-            <div className={`habit${isSelected ? ' habit--selected' : ''}${lastCheckDate === this.currentDateFormatted ? ' habit--checked' : ''}`}
-                 onClick={this.props.selectHabit.bind(this.props, this.props.habit.id)}>
+            <Wrapper isSelected={isSelected} isChecked={isChecked}
+                     onClick={this.props.selectHabit.bind(this.props, this.props.habit.id)}>
                 <div>
                     <p>{this.props.habit.content}</p>
-                    <button onClick={this.handleEditClick}>Edit</button>
-                    <button disabled={false} onClick={this.handleDelete}>delete</button>
-                    <button onClick={this.props.goUp}>go up</button>
-                    <button onClick={this.props.goDown}>go down</button>
                     <p>{lastCheckDate ? lastCheckDate : 'never'}</p>
+                    <ButtonWrapper>
+                        <Button bgc={'red'} onClick={this.handleEditClick}>Edit</Button>
+                        <Button disabled={true} onClick={this.handleDelete}>delete</Button>
+                        <Button onClick={this.props.goUp}>go up</Button>
+                        <Button onClick={this.props.goDown}>go down</Button>
+                    </ButtonWrapper>
                 </div>
                 {this.state.editMode &&
                 <HabitCreator onHabitSubmitted={this.handleHabitUpdated} habit={this.props.habit}/>}
-            </div>
+            </Wrapper>
         );
     }
 
@@ -71,6 +103,6 @@ class Habit extends Component<HabitProps, HabitState> {
     };
 }
 
-const mapStateToProps = ({ habits: { selectedHabit } }) => ({ selectedHabit });
+const mapStateToProps = ({habits: {selectedHabit}}) => ({selectedHabit});
 
-export default connect(mapStateToProps, { selectHabit })(Habit);
+export default connect(mapStateToProps, {selectHabit})(Habit);

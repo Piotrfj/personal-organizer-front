@@ -21,6 +21,14 @@ const habitReducer = (state = initialState, action) => {
                 ...state,
                 items: action.payload.data
             };
+        case 'ADD_HABIT':
+            return {
+                ...state,
+                items: [
+                    ...state.items,
+                    action.payload.content
+                ]
+            };
         case 'LOAD_LAST_CHECK_LOG':
             return {
                 ...state,

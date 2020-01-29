@@ -1,4 +1,4 @@
-import {getHabits, getLastLogs, getLog, setHabit} from "../services/habit-service";
+import {createHabit, getHabits, getLastLogs, getLog, setHabit} from "../services/habit-service";
 import store from 'store';
 import {HabitLogType} from "../model-enum";
 
@@ -8,6 +8,18 @@ export const selectHabit = (id: number) => ({
         id
     }
 });
+
+export const addHabit = (content: string) => dispatch => {
+    createHabit(content)
+        .then(res => {
+            dispatch({
+                type: 'ADD_HABIT',
+                payload: {
+                    content: res.data
+                }
+            });
+        });
+};
 
 export const loadHabits = () => dispatch => {
     getHabits()
