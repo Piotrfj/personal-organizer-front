@@ -1,12 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import HabitList from '../../components/HabitList/HabitList';
 import HabitDetails from './HabitDetails';
-import {connect} from 'react-redux';
-import {loadHabits, loadLastCheckLog, selectHabit} from 'actions'
-import styled, {css} from 'styled-components';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faTimes} from '@fortawesome/free-solid-svg-icons'
-import NewItemBar from "../../components/organisms/NewItemBar";
+import { connect } from 'react-redux';
+import { loadHabits, loadLastCheckLog, selectHabit } from 'actions'
+import styled, { css } from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import NewItemBar from '../../components/organisms/NewItemBar';
+import event, { Events } from 'services/eventHandler'
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -42,7 +43,7 @@ const StyledButtonIcon = styled.button`
   ${({rotate}) =>
     rotate &&
     css`
-      transform: rotate(0);
+      transform: rotate(0deg);
     `}
   
   &:focus {
@@ -69,6 +70,7 @@ class HabitView extends Component<{ selectHabit, loadHabits, habits, loadLastChe
     }
 
     handleModalToggle = () => {
+      event.emit(Events.ONE);
         this.setState(prevState => ({
             modalVisible: !prevState.modalVisible,
         }));
@@ -79,7 +81,7 @@ class HabitView extends Component<{ selectHabit, loadHabits, habits, loadLastChe
             <StyledWrapper>
                 <HabitList/>
                 <HabitDetails/>
-                <NewItemBar isVisible={this.state.modalVisible}/>
+                <NewItemBar handleClose={this.handleModalToggle} isVisible={this.state.modalVisible}/>
                 <StyledButtonIcon rotate={this.state.modalVisible} onClick={this.handleModalToggle}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </StyledButtonIcon>

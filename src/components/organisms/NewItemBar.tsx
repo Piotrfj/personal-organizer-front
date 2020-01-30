@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import Heading from "../atoms/Heading";
-import Input from "../atoms/Input";
-import Button from "../atoms/Button";
-import {Formik, Form} from 'formik';
+import Heading from '../atoms/Heading';
+import Input from '../atoms/Input';
+import Button from '../atoms/Button';
+import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
-import {addHabit} from "../../actions";
+import { addHabit } from '../../actions';
+import event, { Events } from 'services/eventHandler'
 
 const StyledWrapper = styled.div`
   border-left: 10px solid ${({theme}) => theme.paletteBlue.main};
@@ -34,31 +35,35 @@ display: flex;
   flex-direction: column;
 `;
 
-const NewItemBar = ({isVisible, addHabit}) => (
+const NewItemBar = ({isVisible, addHabit, handleClose}) => (
     <StyledWrapper isVisible={isVisible}>
-        <Heading big>Create new Habit</Heading>
-        <Formik
-            initialValues={{content: ''}}
-            onSubmit={values => {
-                addHabit(values.content);
-                // handleClose();
-            }}
-        >
-            {({ values, handleChange, handleBlur }) => (
-                <StyledForm>
-                    <StyledTextArea
-                        name="content"
-                        as="textarea"
-                        placeholder="Your habit content"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.content}/>
-                    <Button type="submit">Add Habit</Button>
-                </StyledForm>
-            )}
-        </Formik>
+      <Heading big>Create new Habit</Heading>
+      <Formik
+          initialValues={{content: ''}}
+          onSubmit={(values, {resetForm}) => {
+            addHabit(values.content);
+            handleClose();
+            resetForm({});
+            console.log(event);
+            event.subscribe(Events.ONE, (() => console.log('kappa')));
+            console.log(event);
+          }}
+      >
+        {({values, handleChange, handleBlur}) => (
+            <StyledForm>
+              <StyledTextArea
+                  name="content"
+                  as="textarea"
+                  placeholder="Your habit content"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.content}/>
+              <Button type="submit">Add Habit</Button>
+            </StyledForm>
+        )}
+      </Formik>
     </StyledWrapper>
 );
 
 
-export default connect(null, { addHabit })(NewItemBar);
+export default connect(null, {addHabit})(NewItemBar);
