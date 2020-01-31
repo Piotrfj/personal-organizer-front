@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import HabitList from '../../components/HabitList/HabitList';
 import HabitDetails from './HabitDetails';
-import { connect } from 'react-redux';
-import { loadHabits, loadLastCheckLog, selectHabit } from 'actions'
-import styled, { css } from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import {connect} from 'react-redux';
+import {loadHabits, loadLastCheckLog, selectHabit} from 'actions'
+import styled, {css} from 'styled-components';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faTimes} from '@fortawesome/free-solid-svg-icons'
 import NewItemBar from '../../components/organisms/NewItemBar';
-import event, { Events } from 'services/eventHandler'
+import EventHandler, {EventType} from 'services/eventHandler'
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -64,16 +64,25 @@ class HabitView extends Component<{ selectHabit, loadHabits, habits, loadLastChe
         modalVisible: false
     };
 
+    subscriptions = [];
+
     componentDidMount(): void {
         this.props.loadHabits();
         this.props.loadLastCheckLog();
+        this.subscribeToModalEvents();
     }
 
     handleModalToggle = () => {
-      event.emit(Events.ONE);
         this.setState(prevState => ({
             modalVisible: !prevState.modalVisible,
         }));
+    };
+
+    subscribeToModalEvents = () => {
+        const subscriptionId = EventHandler.subscribe(EventType.EDIT_HABIT, ()=> {
+            this.handleModalToggle();
+        });
+        this.subscriptions.push(subscriptionId);
     };
 
     render() {
@@ -87,6 +96,12 @@ class HabitView extends Component<{ selectHabit, loadHabits, habits, loadLastChe
                 </StyledButtonIcon>
             </StyledWrapper>
         );
+    }
+
+    componentWillUnmount(): void {
+        this.subscriptions.forEach(subscription => {
+            EventHandler.unsubscribe(EventType.EDIT_HABIT, subscription);
+        })
     }
 }
 

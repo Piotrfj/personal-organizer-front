@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import styled, {css} from 'styled-components';
 import Button from "../atoms/Button";
 import ButtonWrapper from "../atoms/ButtonWrapper";
+import EventHandler, {EventType} from 'services/eventHandler'
 
 export interface HabitProps {
     habit: HabitItem
@@ -61,7 +62,8 @@ class Habit extends Component<HabitProps, HabitState> {
     };
 
     handleEditClick = () => {
-        this.toggleEditMode();
+        // this.toggleEditMode();
+        EventHandler.emit(EventType.EDIT_HABIT);
     };
 
     handleHabitUpdated = () => {

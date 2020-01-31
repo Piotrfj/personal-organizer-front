@@ -6,7 +6,6 @@ import Button from '../atoms/Button';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import { addHabit } from '../../actions';
-import event, { Events } from 'services/eventHandler'
 
 const StyledWrapper = styled.div`
   border-left: 10px solid ${({theme}) => theme.paletteBlue.main};
@@ -44,9 +43,6 @@ const NewItemBar = ({isVisible, addHabit, handleClose}) => (
             addHabit(values.content);
             handleClose();
             resetForm({});
-            console.log(event);
-            event.subscribe(Events.ONE, (() => console.log('kappa')));
-            console.log(event);
           }}
       >
         {({values, handleChange, handleBlur}) => (
