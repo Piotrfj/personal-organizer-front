@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import HabitList from '../../components/HabitList/HabitList';
+import HabitList from './HabitList';
 import HabitDetails from './HabitDetails';
 import {connect} from 'react-redux';
 import {loadHabits, loadLastCheckLog, selectHabit} from 'redux/actions'
 import styled from 'styled-components';
-import EventHandler, {EventType} from 'services/eventHandler'
 import ModalController from "../../components/organisms/ModalController";
 
 const StyledWrapper = styled.div`

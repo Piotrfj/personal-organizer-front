@@ -30,6 +30,4 @@ export default new class {
     }
   };
 
-};
-
-// export default new Event();
+}();

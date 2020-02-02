@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import Habit from "../Habit/Habit";
-import {HabitItem} from "../../shared/models";
-import {swapHabitsPositions} from "../../services/habit-service";
-import {loadHabits} from "../../redux/actions";
+import Habit from "components/Habit/Habit";
+import {HabitItem} from "shared/models";
+import {swapHabitsPositions} from "services/habit-service";
+import {loadHabits} from "redux/actions";
 import styled from 'styled-components';
+import Heading from "../../components/atoms/Heading";
 
 
 interface HabitListProps {
@@ -52,6 +53,7 @@ class HabitList extends Component<HabitListProps> {
         return (
             <Wrapper>
                 {this.getHabits()}
+                {this.getHabits().length === 0 && <Heading>Failed to download habits or list is empty</Heading>}
             </Wrapper>
         );
     }
