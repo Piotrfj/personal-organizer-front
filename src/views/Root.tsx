@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import store from 'store'
+import store from 'redux/store'
 import HabitView from './HabitTable/HabitView';
 import MainTemplate from "../components/templates/MainTemplate";
 

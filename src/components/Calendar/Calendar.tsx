@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import './Calendar.scss'
 import CalendarCell from "./CalendarCell";
-import {HabitLog} from "../../models";
-import {HabitLogType} from "../../model-enum";
+import {HabitLog} from "../../shared/models";
+import {HabitLogType} from "../../shared/model-enum";
 import {getLog} from "../../services/habit-service";
 import HabitCheck from "../HabitCheck/HabitCheck";
 import { connect } from 'react-redux'
-import {loadLogOfCurrentHabit} from "../../actions";
+import {loadLogOfCurrentHabit} from "../../redux/actions";
 
 interface CalendarState {
     currentMonth: number;

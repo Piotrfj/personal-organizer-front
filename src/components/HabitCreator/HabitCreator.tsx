@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {createHabit, updateHabit} from "../../services/habit-service";
-import {HabitItem} from "../../models";
-import {loadHabits} from "../../actions";
+import {HabitItem} from "../../shared/models";
+import {loadHabits} from "../../redux/actions";
 
 interface HabitManagementState {
     content: string

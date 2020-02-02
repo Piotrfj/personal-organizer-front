@@ -1,8 +1,8 @@
 .calendar {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(7, 4rem);
-  grid-auto-rows: 4rem;
+  grid-template-columns: repeat(7, 4.5rem);
+  grid-auto-rows: 4.5rem;
   grid-gap: .5rem;
 
   &__check-modal {

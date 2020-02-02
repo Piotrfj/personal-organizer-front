@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {HabitLogType} from "../../model-enum";
+import {HabitLogType} from "../../shared/model-enum";
 import styled, {css} from 'styled-components';
 
 interface CalendarCellProps {
@@ -9,12 +9,13 @@ interface CalendarCellProps {
 }
 
 const Cell = styled.div`
-    background-color: #eee;
-    border: 1px solid #999;
-    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #eee;
+    border: 1px solid #999;
+    border-radius: 50%;
+    font-size: 2rem;
     &:hover {
       cursor: pointer;
     }

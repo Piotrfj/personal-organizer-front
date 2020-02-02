@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Habit from "../Habit/Habit";
-import {HabitItem} from "../../models";
+import {HabitItem} from "../../shared/models";
 import {swapHabitsPositions} from "../../services/habit-service";
-import {loadHabits} from "../../actions";
+import {loadHabits} from "../../redux/actions";
 import styled from 'styled-components';
 
 
