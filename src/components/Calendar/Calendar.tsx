@@ -5,6 +5,8 @@ import {HabitLog} from "../../models";
 import {HabitLogType} from "../../model-enum";
 import {getLog} from "../../services/habit-service";
 import HabitCheck from "../HabitCheck/HabitCheck";
+import { connect } from 'react-redux'
+import {loadLogOfCurrentHabit} from "../../actions";
 
 interface CalendarState {
     currentMonth: number;
@@ -16,11 +18,11 @@ interface CalendarState {
     top: number
 }
 
-interface CalendarProps {
-    selectedHabit: number;
-}
+// interface CalendarProps {
+//     selectedHabit: number;
+// }
 
-class Calendar extends Component<CalendarProps, CalendarState> {
+class Calendar extends Component<{selectedHabit, loadLogOfCurrentHabit, log}, CalendarState> {
 
     readonly currentDate = new Date();
 
@@ -34,13 +36,8 @@ class Calendar extends Component<CalendarProps, CalendarState> {
         top: null
     };
 
-    constructor(props: CalendarProps) {
-        super(props);
-        this.loadCurrentHabitLog();
-    }
-
-    componentDidUpdate(prevProps: Readonly<CalendarProps>): void {
-        if (prevProps.selectedHabit !== this.props.selectedHabit) {
+    componentDidUpdate(prevProps): void {
+        if (this.props.selectedHabit && prevProps.selectedHabit !== this.props.selectedHabit) {
             this.loadCurrentHabitLog()
         }
     }
@@ -55,7 +52,6 @@ class Calendar extends Component<CalendarProps, CalendarState> {
                     <div className={'calendar__check-modal'} style={{top: this.state.top}} onMouseLeave={this.turnOffCheckMode}>
                         <HabitCheck onCheck={this.loadCurrentHabitLog}
                                     logId={this.state.currentSelectedLogId}
-                                    habitId={this.props.selectedHabit}
                                     date={this.state.currentSelectedDate}/>
                     </div>
                 )}
@@ -64,13 +60,14 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     }
 
     private loadCurrentHabitLog = () => {
-        getLog(this.props.selectedHabit)
-            .then(habitLog => {
-                this.setState({
-                    currentMonthChecks: this.getHabitLogTypesForCurrentMonth(habitLog.data),
-                    currentHabitLogs: habitLog.data
-                });
-            });
+        // getLog(this.props.selectedHabit)
+        //     .then(habitLog => {
+        //         this.setState({
+        //             currentMonthChecks: this.getHabitLogTypesForCurrentMonth(habitLog.data),
+        //             currentHabitLogs: habitLog.data
+        //         });
+        //     });
+        this.props.loadLogOfCurrentHabit();
     };
 
     private getDays = () => {
@@ -81,7 +78,7 @@ class Calendar extends Component<CalendarProps, CalendarState> {
                                              date={dateFormatted}
                                              type={HabitLogType.EMPTY}/>)
         }
-        this.state.currentHabitLogs.filter((habitLog: HabitLog) => new Date(habitLog.date).getMonth() === this.state.currentMonth).forEach((habitLog: HabitLog) => {
+        this.props.log.filter((habitLog: HabitLog) => new Date(habitLog.date).getMonth() === this.state.currentMonth).forEach((habitLog: HabitLog) => {
             calendarCells[new Date(habitLog.date).getDate() - 1] =
                 <CalendarCell onCheck={(top: number) => this.turnOnCheckMode(top, habitLog.date, habitLog.id)}
                               date={habitLog.date}
@@ -164,4 +161,6 @@ class Calendar extends Component<CalendarProps, CalendarState> {
     };
 }
 
-export default Calendar;
+const mapStateToProps = ({ habits: { selectedHabit, log } }) => ({ selectedHabit, log });
+
+export default connect(mapStateToProps, { loadLogOfCurrentHabit })(Calendar);
