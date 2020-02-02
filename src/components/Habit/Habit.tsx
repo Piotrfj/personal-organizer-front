@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import HabitCreator from "../HabitCreator/HabitCreator";
-import {HabitItem} from "../../models";
+import {HabitItem} from "../../shared/models";
 import {deleteHabit} from "../../services/habit-service";
-import {formatDate} from "../../utils";
-import {selectHabit} from "../../actions";
+import {formatDate} from "../../shared/utils";
+import {selectHabit} from "../../redux/actions";
 import {connect} from 'react-redux';
 import styled, {css} from 'styled-components';
 import Button from "../atoms/Button";
@@ -63,7 +63,7 @@ class Habit extends Component<HabitProps, HabitState> {
 
     handleEditClick = () => {
         // this.toggleEditMode();
-        EventHandler.emit(EventType.EDIT_HABIT);
+        EventHandler.emit(EventType.EDIT_HABIT, this.props.habit);
     };
 
     handleHabitUpdated = () => {

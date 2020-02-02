@@ -1,7 +1,7 @@
 import axios from "axios";
-import {apiUrl} from "../config";
-import {HabitLogType} from "../model-enum";
-import {HabitItem, HabitLog} from "../models";
+import {apiUrl} from "../shared/config";
+import {HabitLogType} from "../shared/model-enum";
+import {HabitItem, HabitLog} from "../shared/models";
 
 export const getHabits = () => {
     return axios.get<HabitItem[]>(`${apiUrl}/habits`);

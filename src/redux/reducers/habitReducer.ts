@@ -1,4 +1,4 @@
-import {HabitLog} from "../models";
+import {HabitLog} from "../../shared/models";
 
 interface initialStateInterface {
     items: any[]
@@ -28,6 +28,12 @@ const habitReducer = (state = initialState, action) => {
                     ...state.items,
                     action.payload.content
                 ]
+            };
+        case 'UPDATE_HABIT':
+            console.log(action.payload);
+            return {
+                ...state,
+                items: state.items.map(habit => habit.id === action.payload.id ? action.payload : habit),
             };
         case 'LOAD_LAST_CHECK_LOG':
             return {

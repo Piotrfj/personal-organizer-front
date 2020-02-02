@@ -1,6 +1,7 @@
 import uuid from 'uuid/v1';
 
 export enum EventType {
+  ADD_HABIT,
   EDIT_HABIT
 }
 
@@ -29,6 +30,4 @@ export default new class {
     }
   };
 
-};
-
-// export default new Event();
+}();

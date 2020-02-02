@@ -1,9 +1,5 @@
 import {HabitLogType} from "./model-enum";
 
-export interface Habit {
-
-}
-
 export interface HabitItem {
     id: number,
     content: string,

@@ -1,6 +1,6 @@
-import {createHabit, getHabits, getLastLogs, getLog, setHabit} from "../services/habit-service";
-import store from 'store';
-import {HabitLogType} from "../model-enum";
+import {createHabit, getHabits, getLastLogs, getLog, setHabit, updateHabit} from "../../services/habit-service";
+import store from 'redux/store';
+import {HabitLogType} from "../../shared/model-enum";
 
 export const selectHabit = (id: number) => ({
     type: 'SELECT_HABIT',
@@ -17,6 +17,17 @@ export const addHabit = (content: string) => dispatch => {
                 payload: {
                     content: res.data
                 }
+            });
+        });
+};
+
+export const editHabit = (id: number, content: string) => dispatch => {
+    console.log('tete');
+    updateHabit(id, content)
+        .then(res => {
+            dispatch({
+                type: 'UPDATE_HABIT',
+                payload: res.data
             });
         });
 };

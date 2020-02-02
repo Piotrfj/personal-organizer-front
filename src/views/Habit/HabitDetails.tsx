@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
 import Calendar from "../../components/Calendar/Calendar";
-import './HabitDetails.scss';
+import styled from 'styled-components'
 
 interface HabitDetailsProps {
 }
 
+const Wrapper = styled.div`
+
+`;
+
 class HabitDetails extends Component<HabitDetailsProps> {
     render() {
         return (
-            <div className={"habit-details"}>
+            <Wrapper>
                 <Calendar/>
-            </div>
+            </Wrapper>
         );
     }
 }

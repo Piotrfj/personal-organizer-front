@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import './HabitCheck.scss'
-import {HabitLogType} from "../../model-enum";
+import {HabitLogType} from "../../shared/model-enum";
 import * as HabitService from '../../services/habit-service'
 import { connect } from 'react-redux';
-import {checkHabit} from "../../actions";
+import {checkHabit} from "../../redux/actions";
 
 interface HabitCheckProps {
     selectedHabit: number
