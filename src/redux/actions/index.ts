@@ -22,7 +22,6 @@ export const addHabit = (content: string) => dispatch => {
 };
 
 export const editHabit = (id: number, content: string) => dispatch => {
-    console.log('tete');
     updateHabit(id, content)
         .then(res => {
             dispatch({

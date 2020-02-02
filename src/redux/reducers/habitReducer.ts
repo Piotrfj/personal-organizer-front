@@ -30,7 +30,6 @@ const habitReducer = (state = initialState, action) => {
                 ]
             };
         case 'UPDATE_HABIT':
-            console.log(action.payload);
             return {
                 ...state,
                 items: state.items.map(habit => habit.id === action.payload.id ? action.payload : habit),
