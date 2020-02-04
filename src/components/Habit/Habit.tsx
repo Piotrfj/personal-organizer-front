@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import HabitCreator from "../HabitCreator/HabitCreator";
 import {HabitItem} from "../../shared/models";
-import {deleteHabit} from "../../services/habit-service";
 import {formatDate} from "../../shared/utils";
-import {selectHabit} from "../../redux/actions";
+import {deleteHabit, selectHabit} from "../../redux/actions";
 import {connect} from 'react-redux';
 import styled, {css} from 'styled-components';
 import Button from "../atoms/Button";
@@ -18,10 +16,10 @@ export interface HabitProps {
     goDown: () => void
     selectedHabit: number
     lastCheckDate: string
+    deleteHabit: (number) => void
 }
 
 interface HabitState {
-    editMode: boolean
     lastCheckedDay: Date
 }
 
@@ -57,18 +55,11 @@ class Habit extends Component<HabitProps, HabitState> {
     currentDateFormatted = formatDate(new Date());
 
     state = {
-        editMode: false,
         lastCheckedDay: null
     };
 
     handleEditClick = () => {
-        // this.toggleEditMode();
         EventHandler.emit(EventType.EDIT_HABIT, this.props.habit);
-    };
-
-    handleHabitUpdated = () => {
-        this.props.reloadHabits();
-        this.toggleEditMode();
     };
 
     public render() {
@@ -83,28 +74,17 @@ class Habit extends Component<HabitProps, HabitState> {
                     <p>{lastCheckDate ? lastCheckDate : 'never'}</p>
                     <ButtonWrapper>
                         <Button bgc={'red'} onClick={this.handleEditClick}>Edit</Button>
-                        <Button disabled={true} onClick={this.handleDelete}>delete</Button>
+                        <Button disabled={false} onClick={() => {this.props.deleteHabit(this.props.habit.id)}}>delete</Button>
                         <Button onClick={this.props.goUp}>go up</Button>
                         <Button onClick={this.props.goDown}>go down</Button>
                     </ButtonWrapper>
                 </div>
-                {this.state.editMode &&
-                <HabitCreator onHabitSubmitted={this.handleHabitUpdated} habit={this.props.habit}/>}
             </Wrapper>
         );
     }
 
-    private toggleEditMode = () => {
-        this.setState((prevState) => ({
-            editMode: !prevState.editMode
-        }))
-    };
-
-    private handleDelete = () => {
-        deleteHabit(this.props.habit.id).then(this.props.reloadHabits);
-    };
 }
 
 const mapStateToProps = ({habits: {selectedHabit}}) => ({selectedHabit});
 
-export default connect(mapStateToProps, {selectHabit})(Habit);
+export default connect(mapStateToProps, {selectHabit, deleteHabit})(Habit);
