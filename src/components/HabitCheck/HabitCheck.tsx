@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import './HabitCheck.scss'
 import {HabitLogType} from "../../shared/model-enum";
-import * as HabitService from '../../services/habit-service'
 import { connect } from 'react-redux';
-import {checkHabit} from "../../redux/actions";
+import {checkHabit, updateLog} from "../../redux/actions";
 
 interface HabitCheckProps {
     selectedHabit: number
     date: string
-    onCheck: () => void
     logId?: number
     checkHabit
+    updateLog
 }
 
 class HabitCheck extends Component<HabitCheckProps> {
@@ -19,7 +18,7 @@ class HabitCheck extends Component<HabitCheckProps> {
         const {logId, selectedHabit, date} = this.props;
         return () => {
             (this.props.logId ?
-                HabitService.updateHabitLog(logId,selectedHabit,date,check) :
+                this.props.updateLog(logId,selectedHabit,date,check) :
                 this.props.checkHabit(selectedHabit, date, check))
         }
     };
@@ -38,4 +37,4 @@ class HabitCheck extends Component<HabitCheckProps> {
 
 const mapStateToProps = ({ habits: { selectedHabit } }) => ({ selectedHabit });
 
-export default connect(mapStateToProps, { checkHabit })(HabitCheck);
+export default connect(mapStateToProps, { checkHabit, updateLog })(HabitCheck);

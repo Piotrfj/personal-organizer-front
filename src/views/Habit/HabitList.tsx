@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Habit from "components/Habit/Habit";
 import {HabitItem} from "shared/models";
-import {swapHabitsPositions} from "services/habit-service";
-import {loadHabits} from "redux/actions";
+import {loadHabits, swapHabits} from "redux/actions";
 import styled from 'styled-components';
 import Heading from "../../components/atoms/Heading";
 
@@ -13,7 +12,8 @@ interface HabitListProps {
     selectedHabit: number
     loadHabits: () => void
     selectHabitFunction: (habitId) => void
-    lastCheckLog
+    lastCheckLog,
+    swapHabits
 }
 
 const Wrapper = styled.div`
@@ -24,12 +24,7 @@ const Wrapper = styled.div`
 
 class HabitList extends Component<HabitListProps> {
 
-    swapHabitsPositions = (firstHabit: HabitItem, secondHabit: HabitItem) => {
-      return () => {
-          swapHabitsPositions(firstHabit, secondHabit)
-              .then(this.props.loadHabits)
-      }
-    };
+    swapHabitsPositions = (firstHabit: HabitItem, secondHabit: HabitItem) => () => this.props.swapHabits(firstHabit, secondHabit);
 
     getHabits = () => {
         const sortedHabits = [...this.props.items].sort((a, b) => a.positionOrder > b.positionOrder ? 1 : -1);
@@ -61,4 +56,4 @@ class HabitList extends Component<HabitListProps> {
 
 const mapStateToProps = ({ habits: { items, selectedHabit, lastCheckLog } }) => ({ items, selectedHabit, lastCheckLog });
 
-export default connect(mapStateToProps, { loadHabits })(HabitList);
+export default connect(mapStateToProps, { swapHabits, loadHabits })(HabitList);

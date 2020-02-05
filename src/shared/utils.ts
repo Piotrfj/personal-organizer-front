@@ -9,3 +9,7 @@ export const formatDate = (date: string | Date) => {
 
     return [year, month, day].join('-');
 };
+
+export function deepCloneObject<T> (obj: T): T  {
+    return JSON.parse(JSON.stringify(obj));
+}
