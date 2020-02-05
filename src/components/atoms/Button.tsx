@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-const Button = styled.button`
+export const BaseButton = styled.button`
+  outline: none;
+  cursor: pointer;
+`;
+
+const Button = styled(BaseButton)`
   display: flex;
   justify-content: center;
   padding: 8px 25px;
@@ -8,9 +13,6 @@ const Button = styled.button`
   background-color: ${({bgc}) => bgc || 'grey'};
   font-family: 'Monserrat', 'Roboto', 'Arial', sans-serif;
   border-radius: 16px;
-  &:hover {
-  cursor: pointer;
-  }
 `;
 
 export default Button;

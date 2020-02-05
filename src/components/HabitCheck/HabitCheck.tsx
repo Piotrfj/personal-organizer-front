@@ -3,6 +3,8 @@ import './HabitCheck.scss'
 import {HabitLogType} from "../../shared/model-enum";
 import { connect } from 'react-redux';
 import {checkHabit, updateLog} from "../../redux/actions";
+import Button from '../atoms/Button';
+import styled, {css} from 'styled-components';
 
 interface HabitCheckProps {
     selectedHabit: number
@@ -11,6 +13,18 @@ interface HabitCheckProps {
     checkHabit
     updateLog
 }
+
+const CheckModal = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  grid-column-gap: 1rem;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 2px 2px 5px 3px lightgrey;
+`;
 
 class HabitCheck extends Component<HabitCheckProps> {
 
@@ -26,10 +40,10 @@ class HabitCheck extends Component<HabitCheckProps> {
     render() {
         return (
             <div className={'habit-check'}>
-                <button onClick={this.handleClick(HabitLogType.DOESNT_COUNT)} className={'habit-check__button'}>not today</button>
-                <button onClick={this.handleClick(HabitLogType.FAIL)} className={'habit-check__button'}>failed</button>
-                <button onClick={this.handleClick(HabitLogType.WARNING)} className={'habit-check__button'}>partially</button>
-                <button onClick={this.handleClick(HabitLogType.SUCCESS)} className={'habit-check__button'}>perfectly</button>
+                <Button onClick={this.handleClick(HabitLogType.DOESNT_COUNT)} className={'habit-check__button'}>not today</Button>
+                <Button onClick={this.handleClick(HabitLogType.FAIL)} className={'habit-check__button'}>failed</Button>
+                <Button onClick={this.handleClick(HabitLogType.WARNING)} className={'habit-check__button'}>partially</Button>
+                <Button onClick={this.handleClick(HabitLogType.SUCCESS)} className={'habit-check__button'}>perfectly</Button>
             </div>
         );
     }

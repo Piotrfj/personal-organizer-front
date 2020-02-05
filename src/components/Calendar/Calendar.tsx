@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './Calendar.scss'
 import CalendarCell from "./CalendarCell";
 import { HabitLog } from "shared/models";
 import { HabitLogType } from "shared/model-enum";
@@ -7,6 +6,7 @@ import HabitCheck from "../HabitCheck/HabitCheck";
 import { connect } from 'react-redux'
 import { loadLogOfCurrentHabit } from "redux/actions";
 import { formatDate } from "shared/utils";
+import styled, {css} from 'styled-components';
 
 interface CalendarState {
     currentMonth: number;
@@ -21,6 +21,22 @@ interface CalendarProps {
     loadLogOfCurrentHabit: () => void;
     log;
 }
+
+const GridWrapper = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, 5rem);
+  grid-auto-rows: 5rem;
+  grid-gap: .5rem;
+`;
+
+const CheckModalComponent = styled.div`
+  position: absolute;
+  top: ${({top}) => top+'px'};
+  left: 0;
+  right: 0;
+  z-index: 1;
+`;
 
 class Calendar extends Component<CalendarProps, CalendarState> {
 
@@ -42,17 +58,17 @@ class Calendar extends Component<CalendarProps, CalendarState> {
 
     render() {
         return (
-            <div className="calendar">
+            <GridWrapper>
                 {this.getPreviousMonthFillingDays()}
                 {this.getDays()}
                 {this.getFollowingMonthFillingDays()}
                 {this.state.checkMode && (
-                    <div className={'calendar__check-modal'} style={{top: this.state.top}} onMouseLeave={this.turnOffCheckMode}>
+                    <CheckModalComponent top={this.state.top} onMouseLeave={this.turnOffCheckMode}>
                         <HabitCheck logId={this.state.currentSelectedLogId}
                                     date={this.state.currentSelectedDate}/>
-                    </div>
+                    </CheckModalComponent>
                 )}
-            </div>
+            </GridWrapper>
         );
     }
 

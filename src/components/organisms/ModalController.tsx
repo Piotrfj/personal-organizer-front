@@ -5,8 +5,9 @@ import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import styled, {css} from 'styled-components';
 import EventHandler, {EventType} from "../../services/eventHandler";
 import {HabitItem} from "../../shared/models";
+import { BaseButton } from '../atoms/Button';
 
-const StyledButtonIcon = styled.button`
+const StyledButtonIcon = styled(BaseButton)`
   position: fixed;
   bottom: 40px;
   right: 40px;
@@ -29,11 +30,8 @@ const StyledButtonIcon = styled.button`
     rotate &&
     css`
       transform: rotate(0deg);
-    `}
+    `};
   
-  &:focus {
-  outline: none;
-  }
   &:hover {
   cursor: pointer;
   }
@@ -79,7 +77,7 @@ class ModalController extends Component<{}, ModalControllerState> {
         return (
             <>
                 <NewItemBar currentHabit={this.state.currentHabit} handleClose={this.handleModalToggle} isVisible={this.state.modalVisible}/>
-                <StyledButtonIcon rotate={this.state.modalVisible} onClick={this.handleModalToggle}>
+                <StyledButtonIcon rotate={this.state.modalVisible ? 1 : 0} onClick={this.handleModalToggle}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </StyledButtonIcon>
             </>
