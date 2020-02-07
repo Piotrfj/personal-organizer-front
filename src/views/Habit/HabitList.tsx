@@ -36,6 +36,8 @@ class HabitList extends Component<HabitListProps> {
                 } : this.swapHabitsPositions(habit, habits[i - 1])}
                 goDown={i === habits.length - 1 ? () => {
                 } : this.swapHabitsPositions(habit, habits[i + 1])}
+                first={i === 0}
+                last={i === habits.length -1}
                 reloadHabits={this.props.loadHabits}
                 selectHabitFunction={this.props.selectHabitFunction}
                 lastCheckDate={lastLog && lastLog.date}

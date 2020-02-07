@@ -10,6 +10,7 @@ import EventHandler, {EventType} from 'services/eventHandler'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretSquareUp } from '@fortawesome/free-solid-svg-icons/faCaretSquareUp';
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons/faCaretSquareDown';
+import OptionsDropdown from "../molecules/OptionsDropdown";
 
 export interface HabitProps {
     habit: HabitItem
@@ -20,13 +21,12 @@ export interface HabitProps {
     selectedHabit: number
     lastCheckDate: string
     deleteHabit: (number) => void
-}
-
-interface HabitState {
-    lastCheckedDay: Date
+    last: boolean
+    first: boolean
 }
 
 const Wrapper = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
   grid-column-gap: 1rem;
@@ -60,26 +60,29 @@ const Wrapper = styled.div`
 const StyledArrowIcon = styled(FontAwesomeIcon)`
   width: 25px!important;
   height: 25px;
-  ${({theme}) => css`
-    color: rgba(${theme.paletteBlue.text3}, .1);
+  ${({theme, disabled}) => css`
+    color: ${theme.paletteBlue.text3};
+    ${disabled && css`
+      opacity: .3;
+  `}
   `};
 `;
 
 const ArrowButtonsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row-gap: .5rem;
 `;
 
-class Habit extends Component<HabitProps, HabitState> {
+class Habit extends Component<HabitProps> {
 
     currentDateFormatted = formatDate(new Date());
 
-    state = {
-        lastCheckedDay: null
-    };
-
     handleEditClick = () => {
         EventHandler.emit(EventType.EDIT_HABIT, this.props.habit);
+    };
+
+    handleDeleteClick = () => {
+        this.props.deleteHabit(this.props.habit.id)
     };
 
     public render() {
@@ -90,16 +93,13 @@ class Habit extends Component<HabitProps, HabitState> {
             <Wrapper isSelected={isSelected} isChecked={isChecked}
                      onClick={this.props.selectHabit.bind(this.props, this.props.habit.id)}>
                 <ArrowButtonsWrapper>
-                    <StyledArrowIcon onClick={this.props.goUp} icon={faCaretSquareUp}/>
-                    <StyledArrowIcon onClick={this.props.goDown} icon={faCaretSquareDown}/>
+                    <StyledArrowIcon disabled={this.props.first ? 1 : 0} onClick={this.props.goUp} icon={faCaretSquareUp}/>
+                    <StyledArrowIcon disabled={this.props.last ? 1 : 0} onClick={this.props.goDown} icon={faCaretSquareDown}/>
                 </ArrowButtonsWrapper>
                 <div>
                     <p>{this.props.habit.content}</p>
-                    <p>{lastCheckDate ? lastCheckDate : 'never'}</p>
-                    <ButtonWrapper>
-                        <Button bgc={'red'} onClick={this.handleEditClick}>Edit</Button>
-                        <Button disabled={false} onClick={() => {this.props.deleteHabit(this.props.habit.id)}}>delete</Button>
-                    </ButtonWrapper>
+                    <p>Last time checked: {lastCheckDate ? lastCheckDate : 'never'}</p>
+                    <OptionsDropdown actions={[{name: 'Edit', cb: this.handleEditClick}, {name: 'Delete', cb: this.handleDeleteClick, disabled: true}]}/>
                 </div>
             </Wrapper>
         );

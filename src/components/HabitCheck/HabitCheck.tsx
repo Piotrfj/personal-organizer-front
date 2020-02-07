@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './HabitCheck.scss'
 import {HabitLogType} from "../../shared/model-enum";
 import { connect } from 'react-redux';
 import {checkHabit, updateLog} from "../../redux/actions";
@@ -39,12 +38,12 @@ class HabitCheck extends Component<HabitCheckProps> {
 
     render() {
         return (
-            <div className={'habit-check'}>
+            <CheckModal>
                 <Button onClick={this.handleClick(HabitLogType.DOESNT_COUNT)} className={'habit-check__button'}>not today</Button>
                 <Button onClick={this.handleClick(HabitLogType.FAIL)} className={'habit-check__button'}>failed</Button>
                 <Button onClick={this.handleClick(HabitLogType.WARNING)} className={'habit-check__button'}>partially</Button>
                 <Button onClick={this.handleClick(HabitLogType.SUCCESS)} className={'habit-check__button'}>perfectly</Button>
-            </div>
+            </CheckModal>
         );
     }
 }
