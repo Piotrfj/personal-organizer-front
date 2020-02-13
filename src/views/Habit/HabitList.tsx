@@ -17,8 +17,7 @@ interface HabitListProps {
 }
 
 const Wrapper = styled.div`
-  padding-top: 20px;
-  padding-right: 10px;
+  padding: 20px 10px;
   overflow: auto;
 `;
 

@@ -7,13 +7,10 @@ import styled from 'styled-components';
 import ModalController from "../../components/organisms/ModalController";
 
 const StyledWrapper = styled.div`
-  background-color: ${({theme}) => theme.paletteBlue.bgc};
   color: ${({theme}) => theme.paletteBlue.text3};
   display: grid;
   grid-template-columns: 1fr auto;
   grid-column-gap: 10px;
-  height: 100vh;
-  padding: 1rem;
 `;
 
 class HabitView extends Component<{ selectHabit, loadHabits, habits, loadLastCheckLog }> {

@@ -13,7 +13,7 @@ const Button = styled(BaseButton)`
   padding: 8px 25px;
   border: 2px solid black;
   background-color: ${({bgc}) => bgc || 'grey'};
-  border-radius: 16px;
+  border-radius: 10px;
 `;
 
 export default Button;
