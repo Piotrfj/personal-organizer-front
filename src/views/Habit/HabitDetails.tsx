@@ -6,7 +6,7 @@ interface HabitDetailsProps {
 }
 
 const Wrapper = styled.div`
-
+  padding: 20px 10px 0 0;
 `;
 
 class HabitDetails extends Component<HabitDetailsProps> {

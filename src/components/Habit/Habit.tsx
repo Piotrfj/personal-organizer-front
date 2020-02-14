@@ -45,7 +45,10 @@ const Wrapper = styled.div`
     isSelected &&
     css`
       background-color: ${theme.paletteBlue.main};
-    `}
+      &:hover {
+      background-color: ${theme.paletteBlue.secondary};
+      }
+    `};
 
    ${({isChecked}) =>
     isChecked &&
