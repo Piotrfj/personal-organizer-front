@@ -3,6 +3,15 @@ import {apiUrl} from "../shared/config";
 import {HabitLogType} from "../shared/model-enum";
 import {HabitItem, HabitLog} from "../shared/models";
 
+axios.defaults.withCredentials = true;
+
+export const logIn = (email: string, password: string) => {
+    return axios.post(`${apiUrl}/login`, {
+        email,
+        password
+    });
+};
+
 export const getHabits = () => {
     return axios.get<HabitItem[]>(`${apiUrl}/habits`);
 };
