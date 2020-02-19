@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import Heading from '../atoms/Heading';
 import Input from '../atoms/Input';
-import {ConvexButton} from '../atoms/Button';
+import { ConvexButton } from '../atoms/Button';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
-import {addHabit, editHabit} from '../../redux/actions';
+import { addHabit, editHabit } from '../../redux/actions';
 
 const StyledWrapper = styled.div`
   border-left: 10px solid ${({theme}) => theme.paletteBlue.main};
@@ -42,7 +42,7 @@ const StyledButton = styled(ConvexButton)`
 
 const NewItemBar = ({isVisible, addHabit, handleClose, currentHabit, editHabit}) => {
 
-    const getButtonName = () => currentHabit ? 'Edit Habit' :'Add Habit';
+    const getButtonName = () => currentHabit ? 'Edit Habit' : 'Add Habit';
 
     const submitAction = (content: string) => currentHabit ? editHabit(currentHabit.id, content) : addHabit(content);
 
@@ -77,4 +77,4 @@ const NewItemBar = ({isVisible, addHabit, handleClose, currentHabit, editHabit})
 };
 
 
-export default connect(null, { addHabit, editHabit })(NewItemBar);
+export default connect(null, {addHabit, editHabit})(NewItemBar);

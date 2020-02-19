@@ -1,4 +1,4 @@
-import {HabitLogType} from "../shared/model-enum";
+import { HabitLogType } from "../shared/model-enum";
 
 export const theme = {
     appBgc: '#fff',

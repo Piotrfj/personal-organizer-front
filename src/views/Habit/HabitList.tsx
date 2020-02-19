@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Habit from "components/Habit/Habit";
-import {HabitItem} from "shared/models";
-import {loadHabits, swapHabits} from "redux/actions";
+import { HabitItem } from "shared/models";
+import { loadHabits, swapHabits } from "redux/actions";
 import styled from 'styled-components';
 import Heading from "../../components/atoms/Heading";
 
@@ -36,7 +36,7 @@ class HabitList extends Component<HabitListProps> {
                 goDown={i === habits.length - 1 ? () => {
                 } : this.swapHabitsPositions(habit, habits[i + 1])}
                 first={i === 0}
-                last={i === habits.length -1}
+                last={i === habits.length - 1}
                 reloadHabits={this.props.loadHabits}
                 selectHabitFunction={this.props.selectHabitFunction}
                 lastCheckDate={lastLog && lastLog.date}
@@ -55,6 +55,6 @@ class HabitList extends Component<HabitListProps> {
     }
 }
 
-const mapStateToProps = ({ habits: { items, selectedHabit, lastCheckLog } }) => ({ items, selectedHabit, lastCheckLog });
+const mapStateToProps = ({habits: {items, selectedHabit, lastCheckLog}}) => ({items, selectedHabit, lastCheckLog});
 
-export default connect(mapStateToProps, { swapHabits, loadHabits })(HabitList);
+export default connect(mapStateToProps, {swapHabits, loadHabits})(HabitList);
