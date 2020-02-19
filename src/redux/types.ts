@@ -10,3 +10,7 @@ export enum HabitActionTypes {
     LOAD_LAST_CHECK_LOG = 'LOAD_LAST_CHECK_LOG',
     SWAP_HABITS = 'SWAP_HABITS',
 }
+
+export enum ApplicationStateTypes {
+    CHANGE_MODAL_STATE= 'CHANGE_MODAL_STATE',
+}

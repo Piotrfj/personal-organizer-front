@@ -10,9 +10,19 @@ import {
 } from "../../services/habit-service";
 import store from 'redux/store';
 import {HabitLogType} from "../../shared/model-enum";
-import {HabitActionTypes} from "../types";
+import {HabitActionTypes, ApplicationStateTypes} from "../types";
 import {HabitItem} from "../../shared/models";
 import {deepCloneObject} from "../../shared/utils";
+
+export const turnOffLoginModal = () => ({
+  type: ApplicationStateTypes.CHANGE_MODAL_STATE,
+  payload: false
+});
+
+export const turnOnLoginModal = () => ({
+  type: ApplicationStateTypes.CHANGE_MODAL_STATE,
+  payload: true
+});
 
 export const selectHabit = (id: number) => ({
     type: HabitActionTypes.SELECT_HABIT,

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Calendar from "../../components/Calendar/Calendar";
 import styled from 'styled-components'
-import LogInForm from "../../components/molecules/LogInForm";
 
 interface HabitDetailsProps {
 }
@@ -15,7 +14,6 @@ class HabitDetails extends Component<HabitDetailsProps> {
         return (
             <Wrapper>
                 <Calendar/>
-                <LogInForm/>
             </Wrapper>
         );
     }

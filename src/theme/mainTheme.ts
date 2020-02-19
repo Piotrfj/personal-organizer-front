@@ -23,6 +23,7 @@ export const theme = {
         bgc: '#222629',
         text1: '#474b4f',
         text2: '#6b6e70',
-        text3: '#a6a8a9'
+        text3: '#a6a8a9',
+        text4: '#ccc',
     }
 };

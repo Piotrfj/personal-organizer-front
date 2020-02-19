@@ -5,6 +5,11 @@ import {HabitItem, HabitLog} from "../shared/models";
 
 axios.defaults.withCredentials = true;
 
+interface MyStorage extends Storage{
+    userType: string
+} declare var localStorage: MyStorage;
+
+
 export const logIn = (email: string, password: string) => {
     return axios.post(`${apiUrl}/login`, {
         email,
