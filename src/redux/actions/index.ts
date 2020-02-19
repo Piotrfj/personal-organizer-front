@@ -6,7 +6,7 @@ import {
     setHabit,
     swapHabitsPositions,
     updateHabit,
-    deleteHabit as deleteHabitRequest, updateHabitLog
+    deleteHabit as deleteHabitRequest, updateHabitLog, createDemoAccount, logIn
 } from "../../services/habit-service";
 import store from 'redux/store';
 import {HabitLogType} from "../../shared/model-enum";
@@ -23,6 +23,31 @@ export const turnOnLoginModal = () => ({
   type: ApplicationStateTypes.CHANGE_MODAL_STATE,
   payload: true
 });
+
+export const login = (email, password) => dispatch => {
+    logIn(email, password)
+        .then(res => {
+            dispatch({
+                type: ApplicationStateTypes.LOGIN_STATE,
+                payload: true,
+            })
+        })
+};
+
+export const logout = () => ({
+    type: ApplicationStateTypes.LOGIN_STATE,
+    payload: false
+});
+
+export const tryDemo = () => dispatch => {
+    createDemoAccount()
+        .then(res => {
+            dispatch({
+                type: ApplicationStateTypes.LOGIN_STATE,
+                payload: true,
+            })
+        })
+};
 
 export const selectHabit = (id: number) => ({
     type: HabitActionTypes.SELECT_HABIT,

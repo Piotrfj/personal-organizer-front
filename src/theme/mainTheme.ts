@@ -18,8 +18,11 @@ export const theme = {
         [HabitLogType.DOESNT_COUNT]: 'dimgrey'
     },
     paletteBlue: {
+        darker: '#19476d',
+        dark: '#21547e',
         main: '#2f6189',
         secondary: '#3286c2',
+        bright: '#3495da',
         bgc: '#222629',
         text1: '#474b4f',
         text2: '#6b6e70',

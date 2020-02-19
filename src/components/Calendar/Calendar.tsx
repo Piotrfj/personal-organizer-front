@@ -65,7 +65,8 @@ class Calendar extends Component<CalendarProps, CalendarState> {
                 {this.state.checkMode && (
                     <CheckModalComponent top={this.state.top} onMouseLeave={this.turnOffCheckMode}>
                         <HabitCheck logId={this.state.currentSelectedLogId}
-                                    date={this.state.currentSelectedDate}/>
+                                    date={this.state.currentSelectedDate}
+                                    onClick={this.turnOffCheckMode}/>
                     </CheckModalComponent>
                 )}
             </GridWrapper>

@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
-import { Form, Formik } from 'formik';
-import { logIn } from '../../services/habit-service';
-import Button from '../atoms/Button';
-import { boxShadow } from '../../theme/mixins';
+import React, {Component} from 'react';
+import styled from 'styled-components';
+import {Form, Formik} from 'formik';
+import {ConvexButton} from '../atoms/Button';
+import {boxShadow} from '../../theme/mixins';
 import Input from '../atoms/Input';
 import ButtonWrapper from '../atoms/ButtonWrapper';
-import { connect } from 'react-redux';
-import { turnOffLoginModal } from '../../redux/actions';
+import {connect} from 'react-redux';
+import {login, tryDemo} from '../../redux/actions';
 
 const StyledForm = styled(Form)`
   display: grid;
@@ -20,7 +19,7 @@ const StyledForm = styled(Form)`
   width: 400px;
   height: 300px;
   padding: 20px 50px;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -100%);
   background-color: ${props => props.theme.paletteBlue.text1};
   border-radius: 20px;
   border: 3px solid ${props => props.theme.paletteBlue.main};
@@ -37,55 +36,54 @@ const Wrapper = styled.div`
   backdrop-filter: blur(2px) contrast(90%);
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(ConvexButton)`
   justify-self: right;
 `;
 
-class LogInForm extends Component<{ isLoadingModalOpen, turnOffLoginModal }> {
+class LogInForm extends Component<{ isLoadingModalOpen, login, tryDemo }> {
 
-  handleDemoClick = () => {
-    this.props.turnOffLoginModal();
-  };
+    handleDemoClick = () => {
+        this.props.tryDemo();
+    };
 
-  render() {
-    return this.props.isLoadingModalOpen ?
-        <Wrapper>
-          <Formik
-              initialValues={{email: '', password: ''}}
-              onSubmit={(values, {resetForm}) => {
-                logIn(values.email, values.password)
-                    .then(() => console.log('oke'));
-                resetForm({});
-              }}>
-            {({values, handleChange, handleBlur}) => (
-                <StyledForm>
-                  <h1>Login</h1>
-                  <Input type="text"
-                         name="email"
-                         placeholder="email"
-                         onChange={handleChange}
-                         onBlur={handleBlur}
-                         value={values.email}/>
-                  <Input type="text"
-                         name="password"
-                         placeholder="password"
-                         onChange={handleChange}
-                         onBlur={handleBlur}
-                         value={values.password}/>
-                  <ButtonWrapper>
-                    <StyledButton onClick={this.handleDemoClick}>try demo</StyledButton>
-                    <StyledButton type="submit">Login</StyledButton>
-                  </ButtonWrapper>
+    render() {
+        return this.props.isLoadingModalOpen ?
+            <Wrapper>
+                <Formik
+                    initialValues={{email: '', password: ''}}
+                    onSubmit={(values, {resetForm}) => {
+                        this.props.login(values.email, values.password);
+                        resetForm({});
+                    }}>
+                    {({values, handleChange, handleBlur}) => (
+                        <StyledForm>
+                            <h1>Login</h1>
+                            <Input type="text"
+                                   name="email"
+                                   placeholder="email"
+                                   onChange={handleChange}
+                                   onBlur={handleBlur}
+                                   value={values.email}/>
+                            <Input type="text"
+                                   name="password"
+                                   placeholder="password"
+                                   onChange={handleChange}
+                                   onBlur={handleBlur}
+                                   value={values.password}/>
+                            <ButtonWrapper>
+                                <StyledButton type="button" onClick={this.handleDemoClick}>try demo</StyledButton>
+                                <StyledButton type="submit">Login</StyledButton>
+                            </ButtonWrapper>
 
-                </StyledForm>
-            )}
-          </Formik>
-        </Wrapper>
-        :
-        <></>;
-  }
+                        </StyledForm>
+                    )}
+                </Formik>
+            </Wrapper>
+            :
+            <></>;
+    }
 }
 
 const mapStateToProps = ({app: {isLoadingModalOpen}}) => ({isLoadingModalOpen});
 
-export default connect(mapStateToProps, {turnOffLoginModal})(LogInForm);
+export default connect(mapStateToProps, {login, tryDemo})(LogInForm);

@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {HabitLogType} from "../../shared/model-enum";
 import { connect } from 'react-redux';
 import {checkHabit, updateLog} from "../../redux/actions";
-import Button from '../atoms/Button';
-import styled, {css} from 'styled-components';
+import {ConvexButton} from '../atoms/Button';
+import styled from 'styled-components';
+import {boxShadow} from "../../theme/mixins";
 
 interface HabitCheckProps {
     selectedHabit: number
@@ -11,18 +12,19 @@ interface HabitCheckProps {
     logId?: number
     checkHabit
     updateLog
+    onClick: () => void
 }
 
 const CheckModal = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 70px);
+  grid-template-columns: repeat(4, 80px);
   grid-column-gap: 1rem;
   justify-content: center;
   align-items: center;
-
+  border-radius: 8px;
   padding: 1rem;
-  background-color: white;
-  box-shadow: 2px 2px 5px 3px lightgrey;
+  background-color: ${({theme}) => theme.paletteBlue.text1};
+  ${boxShadow()};
 `;
 
 class HabitCheck extends Component<HabitCheckProps> {
@@ -30,6 +32,7 @@ class HabitCheck extends Component<HabitCheckProps> {
     handleClick(check: HabitLogType) {
         const {logId, selectedHabit, date} = this.props;
         return () => {
+            this.props.onClick();
             (this.props.logId ?
                 this.props.updateLog(logId,selectedHabit,date,check) :
                 this.props.checkHabit(selectedHabit, date, check))
@@ -39,10 +42,10 @@ class HabitCheck extends Component<HabitCheckProps> {
     render() {
         return (
             <CheckModal>
-                <Button onClick={this.handleClick(HabitLogType.DOESNT_COUNT)} className={'habit-check__button'}>not today</Button>
-                <Button onClick={this.handleClick(HabitLogType.FAIL)} className={'habit-check__button'}>failed</Button>
-                <Button onClick={this.handleClick(HabitLogType.WARNING)} className={'habit-check__button'}>partially</Button>
-                <Button onClick={this.handleClick(HabitLogType.SUCCESS)} className={'habit-check__button'}>perfectly</Button>
+                <ConvexButton onClick={this.handleClick(HabitLogType.DOESNT_COUNT)} className={'habit-check__button'}>not today</ConvexButton>
+                <ConvexButton onClick={this.handleClick(HabitLogType.FAIL)} className={'habit-check__button'}>failed</ConvexButton>
+                <ConvexButton onClick={this.handleClick(HabitLogType.WARNING)} className={'habit-check__button'}>partially</ConvexButton>
+                <ConvexButton onClick={this.handleClick(HabitLogType.SUCCESS)} className={'habit-check__button'}>perfectly</ConvexButton>
             </CheckModal>
         );
     }

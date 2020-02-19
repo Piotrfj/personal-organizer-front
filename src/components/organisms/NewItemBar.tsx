@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Heading from '../atoms/Heading';
 import Input from '../atoms/Input';
-import Button from '../atoms/Button';
+import {ConvexButton} from '../atoms/Button';
 import { Formik, Form } from 'formik';
 import { connect } from 'react-redux';
 import {addHabit, editHabit} from '../../redux/actions';
@@ -30,8 +30,14 @@ const StyledTextArea = styled(Input)`
 `;
 
 const StyledForm = styled(Form)`
-display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row-gap: 1.5rem;
+`;
+
+const StyledButton = styled(ConvexButton)`
+  justify-self: right;
+  font-size: 16px;
+  font-weight: bold;
 `;
 
 const NewItemBar = ({isVisible, addHabit, handleClose, currentHabit, editHabit}) => {
@@ -62,7 +68,7 @@ const NewItemBar = ({isVisible, addHabit, handleClose, currentHabit, editHabit})
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.content}/>
-                        <Button type="submit">{getButtonName()}</Button>
+                        <StyledButton type="submit">{getButtonName()}</StyledButton>
                     </StyledForm>
                 )}
             </Formik>

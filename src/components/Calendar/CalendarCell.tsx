@@ -31,8 +31,10 @@ class CalendarCell extends Component<CalendarCellProps> {
     private cellElement: HTMLDivElement;
 
     onCheck = () => {
-        const top = this.cellElement.offsetTop + this.cellElement.offsetHeight + 10;
-        this.props.onCheck(top)
+        if (this.props.onCheck && new Date(this.props.date) <= new Date()) {
+            const top = this.cellElement.offsetTop + this.cellElement.offsetHeight + 10;
+            this.props.onCheck(top)
+        }
     };
 
     render() {

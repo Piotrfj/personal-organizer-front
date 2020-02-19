@@ -13,4 +13,5 @@ export enum HabitActionTypes {
 
 export enum ApplicationStateTypes {
     CHANGE_MODAL_STATE= 'CHANGE_MODAL_STATE',
+    LOGIN_STATE= 'LOGIN_STATE',
 }
