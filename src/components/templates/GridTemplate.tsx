@@ -2,6 +2,7 @@ import React from 'react';
 import SideNavBar from '../organisms/SideNavBar';
 import styled from 'styled-components';
 import { defaultThemeStyles } from '../../theme/mixins';
+import LogInForm from '../molecules/LogInForm';
 
 const StyledWrapper = styled.div`
   display: grid;
@@ -17,6 +18,7 @@ const GridTemplate = ({children}) => {
         <StyledWrapper>
           <SideNavBar/>
           {children}
+          <LogInForm/>
         </StyledWrapper>
     );
 };

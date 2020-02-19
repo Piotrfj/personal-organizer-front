@@ -4,13 +4,12 @@ import {formatDate} from "../../shared/utils";
 import {deleteHabit, selectHabit} from "../../redux/actions";
 import {connect} from 'react-redux';
 import styled, {css} from 'styled-components';
-import Button from "../atoms/Button";
-import ButtonWrapper from "../atoms/ButtonWrapper";
 import EventHandler, {EventType} from 'services/eventHandler'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretSquareUp } from '@fortawesome/free-solid-svg-icons/faCaretSquareUp';
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons/faCaretSquareDown';
 import OptionsDropdown from "../molecules/OptionsDropdown";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
 export interface HabitProps {
     habit: HabitItem
@@ -31,7 +30,7 @@ const Wrapper = styled.div`
   grid-template-columns: auto 1fr;
   grid-column-gap: 1rem;
   align-items: center;
-  padding: 1rem;
+  padding: 1.2rem;
   border: 1px solid ${({theme}) => theme.paletteBlue.text1};
   &:nth-child(n+2) {
   border-top: none;
@@ -44,20 +43,11 @@ const Wrapper = styled.div`
   ${({isSelected, theme}) =>
     isSelected &&
     css`
-      background-color: ${theme.paletteBlue.main};
+      background-color: ${theme.paletteBlue.dark};
       &:hover {
-      background-color: ${theme.paletteBlue.secondary};
+      background-color: ${theme.paletteBlue.main};
       }
     `};
-
-   ${({isChecked}) =>
-    isChecked &&
-    css`
-      background-color: #33aa55;
-      &:hover {
-        background-color: lightgreen;
-      }
-    `}
 `;
 
 const StyledArrowIcon = styled(FontAwesomeIcon)`
@@ -74,6 +64,31 @@ const StyledArrowIcon = styled(FontAwesomeIcon)`
 const ArrowButtonsWrapper = styled.div`
   display: grid;
   grid-row-gap: .5rem;
+`;
+
+const ListContent = styled.div`
+  display: grid;
+  grid-row-gap: 1rem;
+`;
+
+const CheckIcon = styled(FontAwesomeIcon)`
+  width: 25px!important;
+  height: 25px;
+`;
+
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  background-color: darkgreen;
+  color: ${({theme}) => theme.paletteBlue.text4};
 `;
 
 class Habit extends Component<HabitProps> {
@@ -99,11 +114,13 @@ class Habit extends Component<HabitProps> {
                     <StyledArrowIcon disabled={this.props.first ? 1 : 0} onClick={this.props.goUp} icon={faCaretSquareUp}/>
                     <StyledArrowIcon disabled={this.props.last ? 1 : 0} onClick={this.props.goDown} icon={faCaretSquareDown}/>
                 </ArrowButtonsWrapper>
-                <div>
+                <ListContent>
                     <p>{this.props.habit.content}</p>
                     <p>Last time checked: {lastCheckDate ? lastCheckDate : 'never'}</p>
-                    <OptionsDropdown actions={[{name: 'Edit', cb: this.handleEditClick}, {name: 'Delete', cb: this.handleDeleteClick, disabled: true}]}/>
-                </div>
+
+                </ListContent>
+                {isChecked && <IconWrapper><CheckIcon icon={faCheck}/></IconWrapper>}
+                <OptionsDropdown actions={[{name: 'Edit', cb: this.handleEditClick}, {name: 'Delete', cb: this.handleDeleteClick}]}/>
             </Wrapper>
         );
     }

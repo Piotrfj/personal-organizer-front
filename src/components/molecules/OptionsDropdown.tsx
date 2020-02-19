@@ -1,25 +1,30 @@
 import React, {Component} from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styled, { css } from 'styled-components';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import styled, {css} from 'styled-components';
 import {faEllipsisV} from "@fortawesome/free-solid-svg-icons/faEllipsisV";
 import {BaseButton} from "../atoms/Button";
-import {boxShadow, hrBetween} from "../../theme/mixins";
+import {hrBetween} from "../../theme/mixins";
 
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 2rem;
-  right: 2rem;
+  top: .5rem;
+  right: .5rem;
+  width: 120px;
+  height: 100px;
 `;
 
 const DropdownWrapper = styled.div`
   position: absolute;
-  top: .5rem;
-  right: 2rem;
+  z-index: 1;
+  top: 1rem;
+  right: 2.2rem;
   min-width: 80px;
-  border: 1px solid black;
-  background-color: ${props => props.theme.paletteBlue.secondary};
-  ${boxShadow()};
+  
+  border-radius: 13px;
+  background: linear-gradient(145deg, #21547e, #19476d);
+  box-shadow:  5px 5px 10px rgba(0, 0, 0, .2), 
+             -2px -2px 10px rgba(255, 255, 255, .1);
 `;
 
 const DropdownItem = styled(BaseButton)`
@@ -28,11 +33,34 @@ const DropdownItem = styled(BaseButton)`
   padding: .5rem 1rem;
   background-color: transparent;
   ${hrBetween()};
+  ${({disabled, theme}) => disabled && css`
+  color: ${theme.paletteBlue.text2}!important;
+`}
+  &:hover {
+    color: ${({theme}) => theme.paletteBlue.text4};
+  }
 `;
 
 const EllipsisButton = styled(FontAwesomeIcon)`
-  width: 25px!important;
-  height: 25px;
+  width: 20px!important;
+  height: 20px;
+`;
+
+const IconButtonWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  
+  &:hover{
+    color: ${({theme}) => theme.paletteBlue.bright};
+  }
 `;
 
 interface OptionsDropdownState {
@@ -40,13 +68,13 @@ interface OptionsDropdownState {
 }
 
 interface OptionsDropdownProps {
-    actions: {name: string, cb: () => void, disabled?: boolean}[]
+    actions: { name: string, cb: () => void, disabled?: boolean }[]
 }
 
 class OptionsDropdown extends Component<OptionsDropdownProps, OptionsDropdownState> {
 
     state = {
-      isDropdownOpen: false
+        isDropdownOpen: false
     };
 
     handleActionClick = (cb) => () => {
@@ -54,17 +82,17 @@ class OptionsDropdown extends Component<OptionsDropdownProps, OptionsDropdownSta
         cb();
     };
 
-    handleMouseLeave = () => {
-        //this.closeDropdown();
-    };
-
     render() {
         return (
-            <Wrapper onMouseLeave={this.handleMouseLeave}>
-                <EllipsisButton onClick={this.toggleDropdown} icon={faEllipsisV} />
+            <Wrapper onMouseLeave={this.closeDropdown}>
+                <IconButtonWrapper>
+                    <EllipsisButton onClick={this.toggleDropdown} icon={faEllipsisV}/>
+                </IconButtonWrapper>
                 {this.state.isDropdownOpen &&
-                <DropdownWrapper>
-                    {this.props.actions.map(action => <DropdownItem disabled={action.disabled ? true : false} key={action.name} onClick={this.handleActionClick(action.cb)}>{action.name}</DropdownItem>)}
+                <DropdownWrapper >
+                    {this.props.actions.map(action => <DropdownItem disabled={action.disabled ? true : false}
+                                                                    key={action.name}
+                                                                    onClick={this.handleActionClick(action.cb)}>{action.name}</DropdownItem>)}
                 </DropdownWrapper>}
             </Wrapper>
         );

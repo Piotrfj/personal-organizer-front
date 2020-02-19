@@ -52,7 +52,7 @@ class SideNavBar extends Component {
             <LogoText>Personal</LogoText>
             <LogoText>Organizer</LogoText>
           </LogoWrapper>
-          <LinkButton as={NavLink} to="/habits" activeClass="active">Habits</LinkButton>
+          <LinkButton as={NavLink} to="/habits">Habits</LinkButton>
         </Wrapper>
     );
   }

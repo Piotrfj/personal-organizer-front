@@ -2,6 +2,40 @@ import axios from "axios";
 import {apiUrl} from "../shared/config";
 import {HabitLogType} from "../shared/model-enum";
 import {HabitItem, HabitLog} from "../shared/models";
+import localStorageService from "./localStorage-service";
+import {logout} from "../redux/actions";
+import store from "../redux/store";
+
+axios.defaults.withCredentials = true;
+
+axios.interceptors.response.use(res => res, error => {
+    if (error.response.status === 401) {
+        localStorageService.setUserId(null);
+        store.dispatch(logout())
+    }
+    return Promise.reject(error);
+});
+
+export const logIn = (email: string, password: string) => {
+    return axios.post(`${apiUrl}/login`, {
+        email,
+        password
+    }).then(res => {
+        if (res) {
+            localStorageService.setUserId(res.data.id);
+        }
+        return res;
+    });
+};
+
+export const createDemoAccount = () => {
+    return axios.post(`${apiUrl}/demo`).then(res => {
+        if (res) {
+            localStorageService.setUserId(res.data.id);
+        }
+        return res;
+    });
+};
 
 export const getHabits = () => {
     return axios.get<HabitItem[]>(`${apiUrl}/habits`);

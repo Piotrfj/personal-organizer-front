@@ -13,12 +13,20 @@ const StyledWrapper = styled.div`
   grid-column-gap: 10px;
 `;
 
-class HabitView extends Component<{ selectHabit, loadHabits, habits, loadLastCheckLog }> {
+class HabitView extends Component<{ isLoggedIn, selectHabit, loadHabits, habits, loadLastCheckLog }> {
 
     componentDidMount(): void {
-        this.props.loadHabits();
-        this.props.loadLastCheckLog();
+        if (this.props.isLoggedIn) {
+            this.props.loadHabits();
+            this.props.loadLastCheckLog();
+        }
+    }
 
+    componentDidUpdate(prevProps: Readonly<{ isLoggedIn, selectHabit; loadHabits; habits; loadLastCheckLog }>, prevState: Readonly<{}>, snapshot?: any): void {
+        if (this.props.isLoggedIn && prevProps.isLoggedIn !== this.props.isLoggedIn) {
+            this.props.loadHabits();
+            this.props.loadLastCheckLog();
+        }
     }
 
     render() {
@@ -34,6 +42,6 @@ class HabitView extends Component<{ selectHabit, loadHabits, habits, loadLastChe
 
 }
 
-const mapStateToProps = ({habits: {items}}) => ({items});
+const mapStateToProps = ({habits: {items}, app: {isLoggedIn}}) => ({items, isLoggedIn});
 
 export default connect(mapStateToProps, {loadHabits, selectHabit, loadLastCheckLog})(HabitView);
