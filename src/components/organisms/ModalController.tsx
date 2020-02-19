@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import NewItemBar from "./NewItemBar";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import styled, {css} from 'styled-components';
-import EventHandler, {EventType} from "../../services/eventHandler";
-import {HabitItem} from "../../shared/models";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import styled, { css } from 'styled-components';
+import EventHandler, { EventType } from "../../services/eventHandler";
+import { HabitItem } from "../../shared/models";
 import { BaseButton } from '../atoms/Button';
 
 const StyledButtonIcon = styled(BaseButton)`
@@ -43,7 +43,7 @@ interface ModalControllerState {
 }
 
 class ModalController extends Component<{}, ModalControllerState> {
-    subscriptions  =[];
+    subscriptions = [];
     state = {
         modalVisible: false,
         currentHabit: null
@@ -76,7 +76,8 @@ class ModalController extends Component<{}, ModalControllerState> {
     render() {
         return (
             <>
-                <NewItemBar currentHabit={this.state.currentHabit} handleClose={this.handleModalToggle} isVisible={this.state.modalVisible}/>
+                <NewItemBar currentHabit={this.state.currentHabit} handleClose={this.handleModalToggle}
+                            isVisible={this.state.modalVisible}/>
                 <StyledButtonIcon rotate={this.state.modalVisible ? 1 : 0} onClick={this.handleModalToggle}>
                     <FontAwesomeIcon icon={faTimes}/>
                 </StyledButtonIcon>

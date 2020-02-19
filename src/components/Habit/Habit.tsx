@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import {HabitItem} from "../../shared/models";
-import {formatDate} from "../../shared/utils";
-import {deleteHabit, selectHabit} from "../../redux/actions";
-import {connect} from 'react-redux';
-import styled, {css} from 'styled-components';
-import EventHandler, {EventType} from 'services/eventHandler'
+import React, { Component } from 'react';
+import { HabitItem } from "../../shared/models";
+import { formatDate } from "../../shared/utils";
+import { deleteHabit, selectHabit } from "../../redux/actions";
+import { connect } from 'react-redux';
+import styled, { css } from 'styled-components';
+import EventHandler, { EventType } from 'services/eventHandler'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretSquareUp } from '@fortawesome/free-solid-svg-icons/faCaretSquareUp';
 import { faCaretSquareDown } from '@fortawesome/free-solid-svg-icons/faCaretSquareDown';
 import OptionsDropdown from "../molecules/OptionsDropdown";
-import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export interface HabitProps {
     habit: HabitItem
@@ -111,8 +111,10 @@ class Habit extends Component<HabitProps> {
             <Wrapper isSelected={isSelected} isChecked={isChecked}
                      onClick={this.props.selectHabit.bind(this.props, this.props.habit.id)}>
                 <ArrowButtonsWrapper>
-                    <StyledArrowIcon disabled={this.props.first ? 1 : 0} onClick={this.props.goUp} icon={faCaretSquareUp}/>
-                    <StyledArrowIcon disabled={this.props.last ? 1 : 0} onClick={this.props.goDown} icon={faCaretSquareDown}/>
+                    <StyledArrowIcon disabled={this.props.first ? 1 : 0} onClick={this.props.goUp}
+                                     icon={faCaretSquareUp}/>
+                    <StyledArrowIcon disabled={this.props.last ? 1 : 0} onClick={this.props.goDown}
+                                     icon={faCaretSquareDown}/>
                 </ArrowButtonsWrapper>
                 <ListContent>
                     <p>{this.props.habit.content}</p>
@@ -120,7 +122,8 @@ class Habit extends Component<HabitProps> {
 
                 </ListContent>
                 {isChecked && <IconWrapper><CheckIcon icon={faCheck}/></IconWrapper>}
-                <OptionsDropdown actions={[{name: 'Edit', cb: this.handleEditClick}, {name: 'Delete', cb: this.handleDeleteClick}]}/>
+                <OptionsDropdown
+                    actions={[{name: 'Edit', cb: this.handleEditClick}, {name: 'Delete', cb: this.handleDeleteClick}]}/>
             </Wrapper>
         );
     }
