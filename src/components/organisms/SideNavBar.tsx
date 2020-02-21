@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { BaseButton } from '../atoms/Button';
+import Button, { BaseButton } from '../atoms/Button';
 import { hrAround } from '../../theme/mixins';
+import { logoutAction } from '../../redux/actions';
+import { connect } from 'react-redux';
+
+
 
 const Wrapper = styled.div`
   border-right: 10px solid ${props => props.theme.paletteBlue.text3};
@@ -44,7 +48,11 @@ const LinkButton = styled(BaseButton)`
   ${hrAround('0rem')};
 `;
 
-class SideNavBar extends Component {
+const BottomButtons = styled.div`
+  
+`;
+
+class SideNavBar extends Component<{isLoggedIn, logout}> {
   render() {
     return (
         <Wrapper>
@@ -53,9 +61,15 @@ class SideNavBar extends Component {
             <LogoText>Organizer</LogoText>
           </LogoWrapper>
           <LinkButton as={NavLink} to="/habits">Habits</LinkButton>
+          <BottomButtons>
+            {this.props.isLoggedIn &&
+            <Button onClick={this.props.logout}>Logout</Button>}
+          </BottomButtons>
         </Wrapper>
     );
   }
 }
 
-export default SideNavBar;
+const mapStateToProps = ({app: {isLoggedIn}}) => ({isLoggedIn});
+
+export default connect(mapStateToProps, {logout: logoutAction})(SideNavBar);

@@ -7,8 +7,8 @@ interface initialStateInterface {
 }
 
 const initialState: initialStateInterface = {
-    isLoadingModalOpen: !localStorageService.getUserId(),
-    isLoggedIn: !!localStorageService.getUserId(),
+    isLoadingModalOpen: !localStorageService.isLoggedIn() ,
+    isLoggedIn: localStorageService.isLoggedIn(),
 };
 
 interface AppAction {

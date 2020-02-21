@@ -10,4 +10,12 @@ export default class localStorageService {
     static getUserId = () => {
         return localStorage.userId;
     };
+
+    static deleteUserId = () => {
+      delete localStorage.userId;
+    };
+
+    static isLoggedIn = () => {
+        return !!(localStorage.userId && localStorage.userId !== null);
+    }
 }

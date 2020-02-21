@@ -3,15 +3,15 @@ import {apiUrl} from "../shared/config";
 import {HabitLogType} from "../shared/model-enum";
 import {HabitItem, HabitLog} from "../shared/models";
 import localStorageService from "./localStorage-service";
-import {logout} from "../redux/actions";
+import { innerLogoutAction } from '../redux/actions';
 import store from "../redux/store";
 
 axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(res => res, error => {
     if (error.response.status === 401) {
-        localStorageService.setUserId(null);
-        store.dispatch(logout())
+        localStorageService.deleteUserId();
+        store.dispatch(innerLogoutAction())
     }
     return Promise.reject(error);
 });
@@ -26,6 +26,14 @@ export const logIn = (email: string, password: string) => {
         }
         return res;
     });
+};
+
+export const logout = () => {
+  return axios.post(`${apiUrl}/logout`)
+      .then(res => {
+          localStorageService.deleteUserId();
+          return res;
+      });
 };
 
 export const createDemoAccount = () => {

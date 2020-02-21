@@ -6,7 +6,7 @@ import {boxShadow} from '../../theme/mixins';
 import Input from '../atoms/Input';
 import ButtonWrapper from '../atoms/ButtonWrapper';
 import {connect} from 'react-redux';
-import {login, tryDemo} from '../../redux/actions';
+import {loginAction, tryDemo} from '../../redux/actions';
 
 const StyledForm = styled(Form)`
   display: grid;
@@ -64,7 +64,7 @@ class LogInForm extends Component<{ isLoadingModalOpen, login, tryDemo }> {
                                    onChange={handleChange}
                                    onBlur={handleBlur}
                                    value={values.email}/>
-                            <Input type="text"
+                            <Input type="password"
                                    name="password"
                                    placeholder="password"
                                    onChange={handleChange}
@@ -86,4 +86,4 @@ class LogInForm extends Component<{ isLoadingModalOpen, login, tryDemo }> {
 
 const mapStateToProps = ({app: {isLoadingModalOpen}}) => ({isLoadingModalOpen});
 
-export default connect(mapStateToProps, {login, tryDemo})(LogInForm);
+export default connect(mapStateToProps, {login: loginAction, tryDemo})(LogInForm);
